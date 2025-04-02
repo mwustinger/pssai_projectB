@@ -1,4 +1,9 @@
 # pssai_projectB
+Download Minizinc
+```
+https://www.minizinc.org/
+```
+
 Create the venv
 ```
 python -m venv venv
