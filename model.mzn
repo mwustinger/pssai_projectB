@@ -49,3 +49,17 @@ function int: get_room_load_on_day(int: r, int: d) =
     sum([bool2int(
             book_them_or_no[p] /\ patient_room_booking[p] = r /\ patient_booking_start[p] <= d /\ d <= patient_booking_end[p]
     ) | p in PATIENTS])
+
+% define a function for checking whether two ranges overlap
+% you can use this to check whether any two bookings or surgeries overlap in time
+function bool: overlap(int: start_a, int: end_a, int: start_b, int: end_b) = start_a < end_b /\ start_b < end_a;
+
+% H1: dont mix genders within a room
+% if 2 different patients booked in the same room on the same day, that must mean they are the same gender
+constraint
+    forall(p1 in PATIENTS, p2 in PATIENTS where p1 < p2)(
+        patient_room_booking[p1] = patient_room_booking[p2] /\
+        overlap(patient_booking_start[p1], patient_booking_end[p1], patient_booking_start[p2], patient_booking_end[p2])
+        -> has_gender[p1] = has_gender[p2]
+    );
+
