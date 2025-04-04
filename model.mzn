@@ -29,14 +29,15 @@ array[PATIENTS, ROOMS] of bool: patient_compatible_with_room; % 2D matrix with p
 % define variables that the solver can vary to find a solution
 array[PATIENTS] of var bool: book_them_or_no; % decision whether to treat a patient at all
 array[PATIENTS] of var ROOMS: patient_room_booking; % only in combination with book_them_or_no is this even relevant
-array[PATIENTS] of var DAY: patient_booking_start;
-array[PATIENTS] of var DAY: patient_booking_end;
+array[PATIENTS] of var DAYS: patient_booking_start;
+array[PATIENTS] of var DAYS: patient_booking_end;
 array[PATIENTS] of var DAYS: surgery_day;
 array[PATIENTS] of var HOURS: surgery_start;
 array[PATIENTS] of var HOURS: surgery_end;
 array[PATIENTS] of var SURGEONS: treating_surgeon;
 % the surgery day and time for the surgeons isn't a variable but rather a consequence of the variables defined here
 % if a patient gets treated by a surgeon at a certain time, this surgeons timetable is thus defined
+
 
 % define values that are a consequence of the decisions above
 % in each room on each day, there can be a certain number of patients booked
@@ -52,7 +53,8 @@ function int: get_room_load_on_day(int: r, int: d) =
 
 % define a function for checking whether two ranges overlap
 % you can use this to check whether any two bookings or surgeries overlap in time
-function bool: overlap(int: start_a, int: end_a, int: start_b, int: end_b) = start_a < end_b /\ start_b < end_a;
+% TODO: should we use < or <= here?
+function bool: overlap(int: start_a, int: end_a, int: start_b, int: end_b) = start_a <= end_b /\ start_b <= end_a;
 
 % H1: dont mix genders within a room
 % if 2 different patients booked in the same room on the same day, that must mean they are the same gender
@@ -78,8 +80,31 @@ constraint
         is_mandatory[p] -> book_them_or_no[p]
     );
 
+% H6: surgery_day (admission) must be between has_release_day and has_due_day
+% the booking days dont matter here, generally a patient can be booked the whole year, its just important that he gets
+% surgery in the interval required
+constraint
+    forall(p in PATIENTS)(
+        surgery_day[p] >= has_release_day[p] /\ surgery_day[p] <= has_due_day[p]
+    );
+
 % H7: room load can never be higher than the rooms capacity
 constraint
     forall(r in ROOMS, d in DAYS)(
         get_room_load_on_day(r, d) <= has_capacity[r]
+    );
+
+% each surgery length should fit exactly between its start and end time in hours
+constraint
+    forall(p in PATIENTS)(
+        surgery_end[p] - surgery_start[p] + 1 =  surgery_duration[p]
+    );
+
+% surgeon can only do 1 surgery at a time
+% i.e. any two patients can not have surgery with the same surgeon at the same time
+% so if two patients are booked and their surgery intervals overlap, they cannot have the same surgeon
+constraint
+    forall(p1 in PATIENTS, p2 in PATIENTS where p1 < p2)(
+        book_them_or_no[p1] /\ book_them_or_no[p2] /\  overlap(surgery_start[p1], surgery_end[p1], surgery_start[p2], surgery_end[p2])
+        -> treating_surgeon[p1] != treating_surgeon[p2]
     );
