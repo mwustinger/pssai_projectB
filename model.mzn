@@ -58,8 +58,28 @@ function bool: overlap(int: start_a, int: end_a, int: start_b, int: end_b) = sta
 % if 2 different patients booked in the same room on the same day, that must mean they are the same gender
 constraint
     forall(p1 in PATIENTS, p2 in PATIENTS where p1 < p2)(
+        book_them_or_no[p1] /\ book_them_or_no[p2] /\
         patient_room_booking[p1] = patient_room_booking[p2] /\
         overlap(patient_booking_start[p1], patient_booking_end[p1], patient_booking_start[p2], patient_booking_end[p2])
         -> has_gender[p1] = has_gender[p2]
     );
 
+% H2: patients must be compatible with their room
+% if a patient is booked, that means he must be compatible with the room he is booked in
+constraint
+    forall(p in PATIENTS)(
+        book_them_or_no[p] ->  patient_compatible_with_room[p, patient_room_booking[p]]
+    );
+
+% H5: mandatory patients must be scheduled!
+% if a patient is mandatory, that means he is booked
+constraint
+    forall(p in PATIENTS)(
+        is_mandatory[p] -> book_them_or_no[p]
+    );
+
+% H7: room load can never be higher than the rooms capacity
+constraint
+    forall(r in ROOMS, d in DAYS)(
+        get_room_load_on_day(r, d) <= has_capacity[r]
+    );
