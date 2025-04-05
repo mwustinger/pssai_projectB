@@ -5,24 +5,24 @@ int: WEIGHT_UNSCHEDULED_OPTIONAL;
 
 % define the sets of possible values of the constants
 int: NUM_DAYS;
-set of int: PATIENTS;
-set of int: AGE_GROUPS;
-set of int: GENDERS;
-set of int: DAYS = 1..NUM_DAYS;
-set of int: HOURS = 1..24;
-set of int: SURGEONS;
-set of int: ROOMS;
+enum PATIENTS;
+enum AGE_GROUPS;
+enum GENDERS;
+set of int: DAYS = 0..NUM_DAYS-1;
+set of int: MINUTES = 0..1339;
+enum SURGEONS;
+enum ROOMS;
 
 % define the arrays indexed by the sets
 array[PATIENTS] of bool: is_mandatory; % a true/false array, where the ith value belongs to the ith patient
 array[PATIENTS] of DAYS: surgery_release_day; % from this day surgery can be done
-array[PATIENTS] of DAYS: surgery_due_day; % until this day surgery must be finished
+array[PATIENTS] of opt DAYS: surgery_due_day; % until this day surgery must be finished
 array[PATIENTS] of SURGEONS: surgeon_id; % the surgeon who carries out the patient’s surgery
-array[PATIENTS] of HOURS: surgery_duration; %the expected duration of the patient’s surgery, which is assumed to always take place on the day of admission.
+array[PATIENTS] of MINUTES: surgery_duration; %the expected duration of the patient’s surgery, which is assumed to always take place on the day of admission.
 array[PATIENTS] of DAYS: length_of_stay; % duration of the hospitalization in days.
 array[PATIENTS] of AGE_GROUPS: age_group; % the age group of the patient (e.g., infant, youth, adult, elder). The list of age groups is fully ordered.
 array[PATIENTS] of GENDERS: gender; % the gender of the patient.
-array[SURGEONS, DAYS] of HOURS: max_surgery_time; % max duration a surgeon can work each day
+array[SURGEONS, DAYS] of MINUTES: max_surgery_time; % max duration a surgeon can work each day
 array[ROOMS] of int: room_capacity; % max number of Patients allowed in here
 array[PATIENTS, ROOMS] of bool: is_patient_compatible_with_room; % 2D matrix with patients as rows and rooms as cols
 

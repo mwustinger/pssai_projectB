@@ -9,8 +9,7 @@ def solve_instance(instance: Instance):
     solution = Solution(instance)
     # Create a MiniZinc instance
     solver = minizinc.Solver.lookup("gecode")
-    model = minizinc.Model()
-    model.add_string('model.mzn')
+    model = minizinc.Model('./model.mzn')
 
     # Create an instance of the model
     try:
@@ -23,12 +22,12 @@ def solve_instance(instance: Instance):
         instance_data["WEIGHT_PATIENT_DELAY"] = instance.weights.patient_delay
         instance_data["WEIGHT_UNSCHEDULED_OPTIONAL"] = instance.weights.unscheduled_optional
 
-        instance_data["PATIENTS"] = instance.patients.keys()
+        instance_data["PATIENTS"] = list(instance.patients.keys())
         instance_data["AGE_GROUPS"] = instance.age_groups
         instance_data["GENDERS"] = list(set(genders))
         instance_data["NUM_DAYS"] = instance.days
-        instance_data["SURGEONS"] = instance.surgeons.keys()
-        instance_data["ROOMS"] = instance.rooms.keys()
+        instance_data["SURGEONS"] = list(instance.surgeons.keys())
+        instance_data["ROOMS"] = list(instance.rooms.keys())
 
         instance_data["is_mandatory"] = [p.mandatory for _, p in instance.patients.items()]
         instance_data["surgery_release_day"] = [p.surgery_release_day for _, p in instance.patients.items()]
