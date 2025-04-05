@@ -6,6 +6,8 @@ from Solution import Solution
 def solve_instance(instance: Instance):
     """Solves the scheduling problem using MiniZinc."""
 
+    print(instance)
+
     # Create a MiniZinc instance
     solver = minizinc.Solver.lookup("gecode")
     model = minizinc.Model()
@@ -13,13 +15,29 @@ def solve_instance(instance: Instance):
 
     # Create an instance of the model
     instance_data = minizinc.Instance(solver, model)
+
+    genders = [p.gender for _, p in instance.patients.items()]
     
     # Populate MiniZinc variables from your Python `Instance` object
-    #instance_data["num_days"] = instance.days
-    #instance_data["num_patients"] = len(instance.patients)
-    #instance_data["num_rooms"] = len(instance.rooms)
-    #instance_data["admission_days"] = [p.surgery_release_day for p in instance.patients.values()]
-    #instance_data["length_of_stay"] = [p.length_of_stay for p in instance.patients.values()]
+    instance_data["PATIENTS"] = instance.patients.keys()
+    instance_data["AGE_GROUPS"] = instance.age_groups
+    instance_data["GENDERS"] = list(set(genders))
+    instance_data["NUM_DAYS"] = instance.days
+    instance_data["SURGEONS"] = instance.surgeons.keys()
+    instance_data["ROOMS"] = instance.rooms.keys()
+
+    instance_data["is_mandatory"] = [p.mandatory for _, p in instance.patients.items()]
+    instance_data["surgery_release_day"] = [p.surgery_release_day for _, p in instance.patients.items()]
+    instance_data["surgery_due_day"] = [p.surgery_due_day for _, p in instance.patients.items()]
+    instance_data["surgeon_id"] = [p.surgeon_id for _, p in instance.patients.items()]
+    instance_data["surgery_duration"] = [p.surgery_duration for _, p in instance.patients.items()]
+    instance_data["length_of_stay"] = [p.length_of_stay for _, p in instance.patients.items()]
+    instance_data["age_group"] = [p.age_group for _, p in instance.patients.items()]
+    instance_data["gender"] = [p.gender for _, p in instance.patients.items()]
+    instance_data["max_surgery_time"] = [s.max_surgery_time for _, s in instance.surgeons.items()]
+    instance_data["room_capacity"] = [r.capacity for _, r in instance.rooms.items()]
+    instance_data["is_patient_compatible_with_room"] = [[rId not in p.incompatible_room_ids for rId in instance.rooms.keys()] for _, p in instance.patients.items()]
+    
 
     # Solve the problem
     result = instance_data.solve()

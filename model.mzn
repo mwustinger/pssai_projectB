@@ -1,42 +1,35 @@
-% define constants for array dimensions
-int: NUM_PATIENTS; % n_p
-int: NUM_AGE_GROUPS;
-int: NUM_GENDERS;
-int: NUM_DAYS;
-int: NUM_SURGEONS;
-int: NUM_ROOMS;
+% weights
+int: WEIGHT_ROOM_MIXED_AGE;
+int: WEIGHT_PATIENT_DELAY;
+int: WEIGHT_UNSCHEDULED_OPTIONAL;
 
 % define the sets of possible values of the constants
-set of int: PATIENTS = 1..NUM_PATIENTS; % patients are numbered from 1 to n_p
-set of int: AGE_GROUPS = 1..NUM_AGE_GROUPS;
-set of int: GENDERS = 1..NUM_GENDERS;
+int: NUM_DAYS;
+set of int: PATIENTS;
+set of int: AGE_GROUPS;
+set of int: GENDERS;
 set of int: DAYS = 1..NUM_DAYS;
 set of int: HOURS = 1..24;
-set of int: SURGEONS = 1..NUM_SURGEONS;
-set of int: ROOMS = 1..NUM_ROOMS;
+set of int: SURGEONS;
+set of int: ROOMS;
 
 % define the arrays indexed by the sets
 array[PATIENTS] of bool: is_mandatory; % a true/false array, where the ith value belongs to the ith patient
-array[PATIENTS] of AGE_GROUPS: is_age_group;
-array[PATIENTS] of GENDERS: has_gender;
-array[PATIENTS] of DAYS: has_release_day; % from this day surgery can be done
-array[PATIENTS] of DAYS: has_due_day; % until this day surgery must be finished
-array[PATIENTS] of HOURS: surgery_duration;
-array[SURGEONS] of HOURS: has_max_surgery_time; % TODO: this might be wrong, in Instance.py this is a list ???
-array[ROOMS] of int: has_capacity; % max number of Patients allowed in here
-array[PATIENTS, ROOMS] of bool: patient_compatible_with_room; % 2D matrix with patients as rows and rooms as cols
+array[PATIENTS] of DAYS: surgery_release_day; % from this day surgery can be done
+array[PATIENTS] of DAYS: surgery_due_day; % until this day surgery must be finished
+array[PATIENTS] of SURGEONS: surgeon_id; % the surgeon who carries out the patient’s surgery
+array[PATIENTS] of HOURS: surgery_duration; %the expected duration of the patient’s surgery, which is assumed to always take place on the day of admission.
+array[PATIENTS] of DAYS: length_of_stay; % duration of the hospitalization in days.
+array[PATIENTS] of AGE_GROUPS: age_group; % the age group of the patient (e.g., infant, youth, adult, elder). The list of age groups is fully ordered.
+array[PATIENTS] of GENDERS: gender; % the gender of the patient.
+array[SURGEONS, DAYS] of HOURS: max_surgery_time; % max duration a surgeon can work each day
+array[ROOMS] of int: room_capacity; % max number of Patients allowed in here
+array[PATIENTS, ROOMS] of bool: is_patient_compatible_with_room; % 2D matrix with patients as rows and rooms as cols
 
 % define variables that the solver can vary to find a solution
-array[PATIENTS] of var bool: book_them_or_no; % decision whether to treat a patient at all
+array[PATIENTS] of var bool: is_scheduled; % decision whether to treat a patient at all
+array[PATIENTS] of var DAYS: patient_admission_day; % This is the surgery day and a patients stay ends after a given number of days
 array[PATIENTS] of var ROOMS: patient_room_booking; % only in combination with book_them_or_no is this even relevant
-array[PATIENTS] of var DAYS: patient_booking_start;
-array[PATIENTS] of var DAYS: patient_booking_end;
-array[PATIENTS] of var DAYS: surgery_day;
-array[PATIENTS] of var HOURS: surgery_start;
-array[PATIENTS] of var HOURS: surgery_end;
-array[PATIENTS] of var SURGEONS: treating_surgeon;
-% the surgery day and time for the surgeons isn't a variable but rather a consequence of the variables defined here
-% if a patient gets treated by a surgeon at a certain time, this surgeons timetable is thus defined
 
 
 % define values that are a consequence of the decisions above
