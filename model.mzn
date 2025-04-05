@@ -31,7 +31,12 @@ array[PATIENTS] of var bool: is_scheduled; % decision whether to treat a patient
 array[PATIENTS] of var DAYS: patient_admission_day; % This is the surgery day and a patients stay ends after a given number of days
 array[PATIENTS] of var ROOMS: patient_room_booking; % only in combination with book_them_or_no is this even relevant
 
+% Objective
+var int: num_unscheduled = sum(p in PATIENTS)(1 - bool2int(is_scheduled[p]));
 
+solve minimize WEIGHT_UNSCHEDULED_OPTIONAL * num_unscheduled;
+
+/*
 % define values that are a consequence of the decisions above
 % in each room on each day, there can be a certain number of patients booked
 % their count is the room load, which is constrained by the room's capacity
@@ -101,3 +106,4 @@ constraint
         book_them_or_no[p1] /\ book_them_or_no[p2] /\  overlap(surgery_start[p1], surgery_end[p1], surgery_start[p2], surgery_end[p2])
         -> treating_surgeon[p1] != treating_surgeon[p2]
     );
+*/
