@@ -31,9 +31,16 @@ array[PATIENTS] of var bool: is_scheduled; % decision whether to treat a patient
 array[PATIENTS] of var DAYS: patient_admission_day; % This is the surgery day and a patients stay ends after a given number of days
 array[PATIENTS] of var ROOMS: patient_room_booking; % only in combination with book_them_or_no is this even relevant
 
-% H0: 
-constraint forall(p in PATIENTS)(is_mandatory[p] -> is_scheduled[p]);
+function array[PATIENTS] of bool: get_patients_of(ROOMS: r, DAYS: d) =
+    let {
+        array[PATIENTS] of bool: is_patient_in_room = 
+            [is_scheduled[p] /\
+                 patient_room_booking[p] = r /\
+                 patient_admission_day[p] <= d /\
+                 d <= patient_admission_day[p] + length_of_stay[p] | p in PATIENTS]
+    } in is_patient_in_room;
 
+/*
 % H1: dont mix genders within a room
 % if 2 different patients booked in the same room on the same day, that must mean they are the same gender
 constraint forall(p1 in PATIENTS, p2 in PATIENTS where p1 < p2)(
@@ -50,22 +57,55 @@ constraint forall(p in PATIENTS)(
         is_scheduled[p] ->  is_patient_compatible_with_room[p, patient_room_booking[p]]
     );
 
-% H7: room load can never be higher than the rooms capacity
-function var int: get_room_load_on_day(ROOMS: r, DAYS: d) =
-    sum([bool2int(
-            is_scheduled[p] /\ patient_room_booking[p] = r /\ patient_admission_day[p] <= d /\ d <= patient_admission_day[p] + length_of_stay[p]
+% H3: No overtime for surgeons
+function var int: get_surgeon_occupation_on_day(SURGEONS: s, DAYS: d) =
+    sum([surgery_duration[p] * bool2int(
+            is_scheduled[p] /\ surgeon_id[p] = s /\ patient_admission_day[p] = d
     ) | p in PATIENTS]);
+constraint forall(s in SURGEONS. d in DAYS)(
+        get_surgeon_occupation_on_day(s, d) <= max_surgery_time[s, d]
+    );
 
+% H5: All mandatory patients must be scheduled
+constraint forall(p in PATIENTS)(is_mandatory[p] -> is_scheduled[p]);
+
+% H6: surgery_day (admission) must be between has_release_day and has_due_day
+% the booking days dont matter here, generally a patient can be booked the whole year, its just important that he gets
+% surgery in the interval required
+constraint forall(p in PATIENTS)(
+        surgery_release_day[p] <= surgery_day[p]
+    );
+constraint forall(p in PATIENTS)(
+        is_mandatory[p] -> surgery_day[p] <= surgery_due_day[p]
+    );
+
+% H7: room load can never be higher than the rooms capacity
 constraint
     forall(r in ROOMS, d in DAYS)(
-        get_room_load_on_day(r, d) <= room_capacity[r]
+        sum(p in PATIENTS)(get_patients_of(r, d)[p]) <= room_capacity[r]
     );
+    */
 
 
 % Objective
+function int: median(array[int] of int: data) =
+    let {
+        int: n = length(data),
+        array[1..n] of int: sorted = sort(data)
+    } in
+    sorted[floor((n + 1) div 2)];
+
+function var int: get_age_gap_on_day(ROOMS: r, DAYS: d) = 
+    let {
+        array[PATIENTS] of bool: is_patient_in_room = get_patients_of(r, d),
+        int: med_ord = median([ord(AGE_GROUPS, age_group[p]) | p in PATIENTS where is_patient_in_room[p]])
+    } in 
+    sum([abs(ord(AGE_GROUPS, age_group[p])-med_ord) | p in PATIENTS where is_patient_in_room[p]]);
+
+var int: num_mixed_age_groups = sum(r in ROOMS, d in DAYS)(get_age_gap_on_day(r, d));
 var int: num_unscheduled = sum(p in PATIENTS)(1 - bool2int(is_scheduled[p]));
 
-solve minimize WEIGHT_UNSCHEDULED_OPTIONAL * num_unscheduled;
+solve minimize WEIGHT_UNSCHEDULED_OPTIONAL * num_unscheduled + WEIGHT_ROOM_MIXED_AGE * num_mixed_age_groups;
 
 /*
 % define values that are a consequence of the decisions above
@@ -85,19 +125,7 @@ constraint
         is_mandatory[p] -> book_them_or_no[p]
     );
 
-% H6: surgery_day (admission) must be between has_release_day and has_due_day
-% the booking days dont matter here, generally a patient can be booked the whole year, its just important that he gets
-% surgery in the interval required
-constraint
-    forall(p in PATIENTS)(
-        surgery_day[p] >= has_release_day[p] /\ surgery_day[p] <= has_due_day[p]
-    );
 
-% each surgery length should fit exactly between its start and end time in hours
-constraint
-    forall(p in PATIENTS)(
-        surgery_end[p] - surgery_start[p] + 1 =  surgery_duration[p]
-    );
 
 % surgeon can only do 1 surgery at a time
 % i.e. any two patients can not have surgery with the same surgeon at the same time
