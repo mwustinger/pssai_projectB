@@ -22,9 +22,9 @@ def solve_instance(instance: Instance, threads = 8):
     instance_data["WEIGHT_UNSCHEDULED_OPTIONAL"] = instance.weights.unscheduled_optional
 
     instance_data["PATIENTS"] = list(instance.patients.keys())
-    instance_data["AGE_GROUPS"] = instance.age_groups
+    instance_data["AGE_GROUPS"] = range(len(instance.age_groups))
     instance_data["GENDERS"] = list(set(genders))
-    instance_data["NUM_DAYS"] = instance.days
+    instance_data["DAYS"] = range(instance.days)
     instance_data["SURGEONS"] = list(instance.surgeons.keys())
     instance_data["ROOMS"] = list(instance.rooms.keys())
 
@@ -34,7 +34,7 @@ def solve_instance(instance: Instance, threads = 8):
     instance_data["surgeon_id"] = [p.surgeon_id for _, p in instance.patients.items()]
     instance_data["surgery_duration"] = [p.surgery_duration for _, p in instance.patients.items()]
     instance_data["length_of_stay"] = [p.length_of_stay for _, p in instance.patients.items()]
-    instance_data["age_group"] = [p.age_group for _, p in instance.patients.items()]
+    instance_data["age_group"] = [instance.age_groups.index(p.age_group) for _, p in instance.patients.items()]
     instance_data["gender"] = [p.gender for _, p in instance.patients.items()]
     instance_data["max_surgery_time"] = [s.max_surgery_time for _, s in instance.surgeons.items()]
     instance_data["room_capacity"] = [r.capacity for _, r in instance.rooms.items()]
@@ -43,9 +43,13 @@ def solve_instance(instance: Instance, threads = 8):
     # Solve the problem
     result = instance_data.solve()
 
-    for pId, admission_day, room_assignment in zip(instance.patients.keys(), result["patient_admission_day"], result["patient_room_booking"]):
-        solution.patients[pId].admission_day = admission_day
-        solution.patients[pId].room = room_assignment
+    if result:
+        for pId, is_scheduled, admission_day, room_assignment in zip(instance.patients.keys(), result["is_scheduled"], result["patient_admission_day"], result["patient_room_booking"]):
+            if is_scheduled:
+                solution.patients[pId].admission_day = admission_day
+                solution.patients[pId].room = room_assignment
+    else:
+        print("No Solution found!")
 
     return solution
     
