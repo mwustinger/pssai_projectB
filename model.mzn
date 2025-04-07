@@ -31,6 +31,37 @@ array[PATIENTS] of var bool: is_scheduled; % decision whether to treat a patient
 array[PATIENTS] of var DAYS: patient_admission_day; % This is the surgery day and a patients stay ends after a given number of days
 array[PATIENTS] of var ROOMS: patient_room_booking; % only in combination with book_them_or_no is this even relevant
 
+% H0: 
+constraint forall(p in PATIENTS)(is_mandatory[p] -> is_scheduled[p]);
+
+% H1: dont mix genders within a room
+% if 2 different patients booked in the same room on the same day, that must mean they are the same gender
+constraint forall(p1 in PATIENTS, p2 in PATIENTS where p1 < p2)(
+        is_scheduled[p1] /\ is_scheduled[p2] /\
+        patient_room_booking[p1] = patient_room_booking[p2] /\
+        patient_admission_day[p1] <= patient_admission_day[p2] + length_of_stay[p2] -1 /\
+        patient_admission_day[p2] <= patient_admission_day[p1] + length_of_stay[p1] -1
+        -> gender[p1] = gender[p2]
+    );
+
+% H2: patients must be compatible with their room
+% if a patient is booked, that means he must be compatible with the room he is booked in
+constraint forall(p in PATIENTS)(
+        is_scheduled[p] ->  is_patient_compatible_with_room[p, patient_room_booking[p]]
+    );
+
+% H7: room load can never be higher than the rooms capacity
+function var int: get_room_load_on_day(ROOMS: r, DAYS: d) =
+    sum([bool2int(
+            is_scheduled[p] /\ patient_room_booking[p] = r /\ patient_admission_day[p] <= d /\ d <= patient_admission_day[p] + length_of_stay[p]
+    ) | p in PATIENTS]);
+
+constraint
+    forall(r in ROOMS, d in DAYS)(
+        get_room_load_on_day(r, d) <= room_capacity[r]
+    );
+
+
 % Objective
 var int: num_unscheduled = sum(p in PATIENTS)(1 - bool2int(is_scheduled[p]));
 
@@ -44,32 +75,8 @@ solve minimize WEIGHT_UNSCHEDULED_OPTIONAL * num_unscheduled;
 % do a list comprehension for all patients, get a boolean of whether they were booked and if theyre assigned to this
 % room and their patient_booking_start and _end are before & after the current day
 % then turn that boolean into an int, which you can then sum up to get the number of bookings in that room that day
-function int: get_room_load_on_day(int: r, int: d) =
-    sum([bool2int(
-            book_them_or_no[p] /\ patient_room_booking[p] = r /\ patient_booking_start[p] <= d /\ d <= patient_booking_end[p]
-    ) | p in PATIENTS])
 
-% define a function for checking whether two ranges overlap
-% you can use this to check whether any two bookings or surgeries overlap in time
-% TODO: should we use < or <= here?
-function bool: overlap(int: start_a, int: end_a, int: start_b, int: end_b) = start_a <= end_b /\ start_b <= end_a;
 
-% H1: dont mix genders within a room
-% if 2 different patients booked in the same room on the same day, that must mean they are the same gender
-constraint
-    forall(p1 in PATIENTS, p2 in PATIENTS where p1 < p2)(
-        book_them_or_no[p1] /\ book_them_or_no[p2] /\
-        patient_room_booking[p1] = patient_room_booking[p2] /\
-        overlap(patient_booking_start[p1], patient_booking_end[p1], patient_booking_start[p2], patient_booking_end[p2])
-        -> has_gender[p1] = has_gender[p2]
-    );
-
-% H2: patients must be compatible with their room
-% if a patient is booked, that means he must be compatible with the room he is booked in
-constraint
-    forall(p in PATIENTS)(
-        book_them_or_no[p] ->  patient_compatible_with_room[p, patient_room_booking[p]]
-    );
 
 % H5: mandatory patients must be scheduled!
 % if a patient is mandatory, that means he is booked
@@ -84,12 +91,6 @@ constraint
 constraint
     forall(p in PATIENTS)(
         surgery_day[p] >= has_release_day[p] /\ surgery_day[p] <= has_due_day[p]
-    );
-
-% H7: room load can never be higher than the rooms capacity
-constraint
-    forall(r in ROOMS, d in DAYS)(
-        get_room_load_on_day(r, d) <= has_capacity[r]
     );
 
 % each surgery length should fit exactly between its start and end time in hours
