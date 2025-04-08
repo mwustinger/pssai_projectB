@@ -6,14 +6,14 @@ from pprint import pprint
 
 VERBOSE = True
 LIMIT = 0
-LIMIT = 13
+LIMIT = 130
 
 def solve_instance(instance: Instance, threads = 8):
     """Solves the scheduling problem using MiniZinc."""
     
     solution = Solution(instance)
     # Create a MiniZinc instance
-    # alternate solver: chuffed
+    # alternate solvers: gecode, chuffed, couenne
     solver = minizinc.Solver.lookup("chuffed")
     model = minizinc.Model('./model.mzn')
 
@@ -21,7 +21,6 @@ def solve_instance(instance: Instance, threads = 8):
     instance_data = minizinc.Instance(solver, model)
     if LIMIT: 
         instance.patients = dict(list(instance.patients.items())[:LIMIT])
-    #pprint(instance.surgeons)
 
     genders = [p.gender for _, p in instance.patients.items()]
     
@@ -59,6 +58,7 @@ def solve_instance(instance: Instance, threads = 8):
     instance_data["is_patient_compatible_with_room"] = [[rId not in p.incompatible_room_ids for rId in instance.rooms.keys()] for _, p in instance.patients.items()]
     instance_data["length_of_stay_occupant"] = [o.length_of_stay for _, o in instance.occupants.items()]
     instance_data["occupant_room_booking"] = [o.room_id for _, o in instance.occupants.items()]
+    instance_data["gender_occupant"] = [o.gender for _, o in instance.occupants.items()]
     
     # Solve the problem
     result = instance_data.solve()
