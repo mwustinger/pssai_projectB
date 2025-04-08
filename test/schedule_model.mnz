@@ -1,0 +1,32 @@
+int: NUM_CLASSES;
+int: NUM_TIMES;
+int: NUM_ROOMS;
+int: NUM_TEACHERS;
+
+set of int: CLASSES = 1..NUM_CLASSES;
+set of int: TIMES = 1..NUM_TIMES;
+set of int: ROOMS = 1..NUM_ROOMS;
+set of int: TEACHERS = 1..NUM_TEACHERS;
+
+% these are not vars, because the teacher of each class is fixed
+array[CLASSES] of int: teacher_of_class
+
+array[CLASSES] of var TIMES: time;
+array[CLASSES] of var ROOMS: room;
+
+
+% no two classes in the same room at the same time
+constraint
+    forall(c1 in CLASSES, c2 in CLASSES where c1 < c2) (
+        time[c1] = time[c2] /\ room[c1] = room[c2] -> false
+    );
+
+% a teacher cannot teach two classes at the same time
+constraint
+    forall(c1 in CLASSES, c2 in CLASSES where c1 < c2) (
+        teacher_of_class[c1] = teacher_of_class[c2] /\ time[c1] = time[c2] -> false
+    );
+
+solve satisfy;
+
+

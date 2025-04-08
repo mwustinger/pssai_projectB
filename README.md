@@ -19,6 +19,8 @@ python .\Solution.py .\ihtc2024_test_dataset\test01.json .\ihtc2024_test_solutio
 
 Run the script
 ```
-python .\Solver.py .\ihtc2024_test_dataset\test01.json
+python .\Solver.py .\ihtc2024_test_dataset\test01.json  
+python ./Solver.py ./ihtc2024_test_dataset/test01.json
+
 
 ```

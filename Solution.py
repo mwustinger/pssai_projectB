@@ -146,7 +146,10 @@ class Solution:
 
         # Unscheduled patients
         for p in sorted([p for p in self.patients.values() if p.admission_day is None], key=lambda x: x.id):
-            patient = self.instance.patients[p.id]
+            try:
+                patient = self.instance.patients[p.id]
+            except KeyError:
+                continue
             index = self.__find_index(unscheduled_patients, patient.surgery_release_day, self.instance.days)
             if details:
                 unscheduled_patients[index][patient.surgery_release_day] = (f'{patient.id} ({patient.gender}, '
