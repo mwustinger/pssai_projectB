@@ -106,8 +106,18 @@ constraint forall(r in ROOMS, d in DAYS)(
 */
 
 % Objective
-function var int: get_total_age_difference_for(ROOMS: r, DAYS: d) = 
-    max([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)]) - min([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)]);
+%function var int: get_total_age_difference_for(ROOMS: r, DAYS: d) = 
+%    max([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)]) 
+%    - min([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)]);
+function var int: get_total_age_difference_for(ROOMS: r, DAYS: d) =
+    if exists(p in PATIENTS)(get_booking_status(r, d, p)) then
+        max([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)]) -
+        min([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)])
+    else
+        0
+    endif;
+
+
 
 
 var int: total_unscheduled = sum(p in PATIENTS)(1 - bool2int(is_scheduled[p]));

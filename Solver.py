@@ -70,8 +70,8 @@ def solve_instance(instance: Instance, threads = 8):
                 solution.patients[pId].room = room_assignment
     else:
         print("No Solution found!")
-
     return solution
+
     
 
 if __name__ == '__main__':
