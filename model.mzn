@@ -74,10 +74,10 @@ function var int: get_surgeon_occupation_on_day(SURGEONS: s, DAYS: d) =
         surgery_duration[p] * bool2int(is_scheduled[p] /\ surgeon_id[p] = s /\ patient_admission_day[p] = d)
     );
 /* 
+*/
 constraint forall(s in SURGEONS, d in DAYS)(
         get_surgeon_occupation_on_day(s, d) <= max_surgery_time[s, d]
     );
-*/
 % H5: All mandatory patients must be scheduled
 constraint forall(p in PATIENTS)(
         is_mandatory[p] -> is_scheduled[p]
@@ -106,9 +106,6 @@ constraint forall(r in ROOMS, d in DAYS)(
 */
 
 % Objective
-%function var int: get_total_age_difference_for(ROOMS: r, DAYS: d) = 
-%    max([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)]) 
-%    - min([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)]);
 function var int: get_total_age_difference_for(ROOMS: r, DAYS: d) =
     if exists(p in PATIENTS)(get_booking_status(r, d, p)) then
         max([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)]) -
@@ -121,10 +118,11 @@ function var int: get_total_age_difference_for(ROOMS: r, DAYS: d) =
 
 
 var int: total_unscheduled = sum(p in PATIENTS)(1 - bool2int(is_scheduled[p]));
-/*
 var int: total_age_difference = sum(r in ROOMS, d in DAYS)(get_total_age_difference_for(r, d));
 var int: total_admission_delay = sum(p in PATIENTS)(patient_admission_day[p] - surgery_release_day[p]);
+/*
 solve satisfy;
-solve minimize WEIGHT_ROOM_MIXED_AGE * total_age_difference + WEIGHT_PATIENT_DELAY * total_admission_delay + WEIGHT_UNSCHEDULED_OPTIONAL * total_unscheduled;
-*/
+solve minimize WEIGHT_UNSCHEDULED_OPTIONAL * total_unscheduled + WEIGHT_ROOM_MIXED_AGE * total_age_difference;
 solve minimize WEIGHT_UNSCHEDULED_OPTIONAL * total_unscheduled;
+*/
+solve minimize WEIGHT_ROOM_MIXED_AGE * total_age_difference + WEIGHT_PATIENT_DELAY * total_admission_delay + WEIGHT_UNSCHEDULED_OPTIONAL * total_unscheduled;

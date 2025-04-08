@@ -6,9 +6,9 @@ from pprint import pprint
 
 VERBOSE = True
 LIMIT = 0
-LIMIT = 130
+LIMIT = 15
 
-def solve_instance(instance: Instance, threads = 8):
+def solve_instance(instance: Instance, threads = 4):
     """Solves the scheduling problem using MiniZinc."""
     
     solution = Solution(instance)
