@@ -25,9 +25,10 @@ array[PATIENTS] of GENDERS: gender; % the gender of the patient.
 array[SURGEONS, DAYS] of MINUTES: max_surgery_time; % max duration a surgeon can work each day
 array[ROOMS] of int: room_capacity; % max number of Patients allowed in here
 array[PATIENTS, ROOMS] of bool: is_patient_compatible_with_room; % 2D matrix with patients as rows and rooms as cols
-array[OCCUPANTS] of DAYS: length_of_stay_occupant; % duration of the occupant's hospitalization in days.
+array[OCCUPANTS] of DAYS: occupant_length_of_stay; % duration of the occupant's hospitalization in days.
 array[OCCUPANTS] of ROOMS: occupant_room_booking; % room that the occupant is already inside of
-array[OCCUPANTS] of GENDERS: gender_occupant; % the gender of the occupant.
+array[OCCUPANTS] of GENDERS: occupant_gender; % the gender of the occupant.
+array[OCCUPANTS] of AGE_GROUPS: occupant_age_group; % the gender of the occupant.
 
 % define variables that the solver can vary to find a solution
 array[PATIENTS] of var bool: is_scheduled; % decision whether to treat a patient at all
@@ -38,12 +39,11 @@ function var bool: get_booking_status(ROOMS: r, DAYS: d, PATIENTS: p) =
     is_scheduled[p] /\
     patient_room_booking[p] = r /\
     patient_admission_day[p] <= d /\
-    d <= (patient_admission_day[p] + length_of_stay_patient[p]);
+    d <= (patient_admission_day[p] + length_of_stay_patient[p]) - 1;
 
 function var bool: get_booking_status_occupant(ROOMS: r, DAYS: d, OCCUPANTS: o) =
     occupant_room_booking[o] = r /\
-    d <= (length_of_stay_occupant[o]);
-
+    d <= (occupant_length_of_stay[o]);
 
 % H2: patients must be compatible with their room
 % if a patient is booked, that means he must be compatible with the room he is booked in
@@ -62,33 +62,31 @@ constraint forall(p1 in PATIENTS, p2 in PATIENTS where p1 < p2)(
 constraint forall(p in PATIENTS, o in OCCUPANTS)(
         is_scheduled[p] /\ 
         patient_room_booking[p] = occupant_room_booking[o] /\
-        patient_admission_day[p] <= 0 + length_of_stay_occupant[o] -1 /\
+        patient_admission_day[p] <= 0 + occupant_length_of_stay[o] -1 /\
         0 <= patient_admission_day[p] + length_of_stay_patient[p] -1
-        -> gender[p] = gender_occupant[o]
+        -> gender[p] = occupant_gender[o]
     );
-
 
 % H3: No overtime for surgeons
 function var int: get_surgeon_occupation_on_day(SURGEONS: s, DAYS: d) =
-    sum(p in PATIENTS)(
-        surgery_duration[p] * bool2int(is_scheduled[p] /\ surgeon_id[p] = s /\ patient_admission_day[p] = d)
+    sum(p in PATIENTS where is_scheduled[p] /\ surgeon_id[p] = s /\ patient_admission_day[p] = d)(
+        surgery_duration[p]
     );
-/* 
-*/
 constraint forall(s in SURGEONS, d in DAYS)(
         get_surgeon_occupation_on_day(s, d) <= max_surgery_time[s, d]
     );
+
 % H5: All mandatory patients must be scheduled
-constraint forall(p in PATIENTS)(
-        is_mandatory[p] -> is_scheduled[p]
+constraint forall(p in PATIENTS where is_mandatory[p])(
+        is_scheduled[p]
     );
 
 % H6: surgery_day (admission) must be between release_day and due_day
 constraint forall(p in PATIENTS)(
         surgery_release_day[p] <= patient_admission_day[p]
     );
-constraint forall(p in PATIENTS)(
-        is_mandatory[p] -> patient_admission_day[p] <= surgery_due_day[p]
+constraint forall(p in PATIENTS where is_mandatory[p])(
+        patient_admission_day[p] <= surgery_due_day[p]
     );
 
 % H7: room load can never be higher than the rooms capacity
@@ -98,31 +96,30 @@ constraint forall(r in ROOMS, d in DAYS)(
         % compute the sum for all patients and occupants to get the
         % total number of people in the room on that day
         (
-            sum(p in PATIENTS)(bool2int(get_booking_status(r, d, p)))  
-            + sum(o in OCCUPANTS)(bool2int(get_booking_status_occupant(r, d, o)))
+            count([get_booking_status(r, d, p) | p in PATIENTS])  
+            + count([get_booking_status_occupant(r, d, o) | o in OCCUPANTS])
         ) <= room_capacity[r]
     );
-/*
-*/
 
 % Objective
-function var int: get_total_age_difference_for(ROOMS: r, DAYS: d) =
-    if exists(p in PATIENTS)(get_booking_status(r, d, p)) then
-        max([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)]) -
-        min([age_group[p] | p in PATIENTS where get_booking_status(r, d, p)])
-    else
-        0
-    endif;
+function var int: get_total_age_difference_for(ROOMS: r, DAYS: d) = 
+    let {
+        array[int] of var opt int: ages = [age_group[p] | p in PATIENTS where get_booking_status(r, d, p)] ++ [occupant_age_group[o] | o in OCCUPANTS where get_booking_status_occupant(r, d, o)]
+    } in
+        if length(ages) <= 1 then 0 else max(ages) - min(ages) endif;
 
 
 
 
 var int: total_unscheduled = sum(p in PATIENTS)(1 - bool2int(is_scheduled[p]));
-var int: total_age_difference = sum(r in ROOMS, d in DAYS)(get_total_age_difference_for(r, d));
+% var int: total_age_difference = sum(r in ROOMS, d in DAYS)(get_total_age_difference_for(r, d));
 var int: total_admission_delay = sum(p in PATIENTS)(patient_admission_day[p] - surgery_release_day[p]);
-/*
-solve satisfy;
-solve minimize WEIGHT_UNSCHEDULED_OPTIONAL * total_unscheduled + WEIGHT_ROOM_MIXED_AGE * total_age_difference;
-solve minimize WEIGHT_UNSCHEDULED_OPTIONAL * total_unscheduled;
-*/
-solve minimize WEIGHT_ROOM_MIXED_AGE * total_age_difference + WEIGHT_PATIENT_DELAY * total_admission_delay + WEIGHT_UNSCHEDULED_OPTIONAL * total_unscheduled;
+
+solve :: bool_search(
+    is_scheduled, 
+    input_order, 
+    indomain_max,  % <<< prefers TRUE first!
+    complete
+) 
+% minimize WEIGHT_ROOM_MIXED_AGE * total_age_difference + WEIGHT_PATIENT_DELAY * total_admission_delay + WEIGHT_UNSCHEDULED_OPTIONAL * total_unscheduled;
+minimize WEIGHT_PATIENT_DELAY * total_admission_delay + WEIGHT_UNSCHEDULED_OPTIONAL * total_unscheduled;

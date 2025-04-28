@@ -22,5 +22,6 @@ Run the script
 python .\Solver.py .\ihtc2024_test_dataset\test01.json  
 python ./Solver.py ./ihtc2024_test_dataset/test01.json
 
-
+.\IHTP_Validator.exe .\ihtc2024_test_dataset\test01.json .\ihtc2024_test_dataset\test01_sol.json
+python .\Solution.py .\ihtc2024_test_dataset\test01.json .\ihtc2024_test_solutions\sol_test01.json
 ```

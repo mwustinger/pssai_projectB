@@ -16,8 +16,8 @@ class PatientAssignment(DataClassJsonMixin):
     admission_day: Optional[int] = field(default=None,
                                          metadata=config(encoder=lambda d: 'none' if d is None else d,
                                                          decoder=lambda d: None if d == 'none' else int(d)))
-    room: Optional[str] = None
-    operating_theater: Optional[str] = None  # Ignore
+    room: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))
+    operating_theater: Optional[str] = field(default=None, metadata=config(exclude=lambda f: f is None))  # Ignore
 
 
 @dataclass
