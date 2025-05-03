@@ -2,6 +2,8 @@
 Download Minizinc
 ```
 https://www.minizinc.org/
+
+export PATH="$PATH:/home/martin/Downloads/squashfs-root/usr/bin"
 ```
 
 Create the venv
