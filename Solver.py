@@ -55,6 +55,9 @@ def solve_instance(i: Instance):
     instance["occupant_room_booking"] = [o.room_id for _, o in i.occupants.items()]
     instance["occupant_gender"] = [o.gender for _, o in i.occupants.items()]
     instance["occupant_age_group"] = [i.age_groups.index(o.age_group) for _, o in i.occupants.items()]
+
+
+
     
     # Solve the problem
     result = instance.solve(
@@ -65,8 +68,11 @@ def solve_instance(i: Instance):
     if result:
         for pId, is_scheduled, admission_day, room_assignment in zip(i.patients.keys(), result["is_scheduled"], result["patient_admission_day"], result["patient_room_booking"]):
             if is_scheduled:
+                solution.patients[pId].operating_theater = "t0"
                 solution.patients[pId].admission_day = admission_day
                 solution.patients[pId].room = room_assignment
+            # TODO: do we need to compute the actual costs?
+            # solution.costs = [f"Cost: {3177}, Unscheduled: {1200},  Delay: {660},  OpenOT: {330},  AgeMix: {35},  Skill: {43},  Excess: {24},  Continuity: {885},  SurgeonTransfer: {0}"]
     else:
         print("No Solution found!")
     return solution
@@ -79,4 +85,4 @@ if __name__ == '__main__':
     end_time = time.time()
     print("Elapsed time: ", (end_time-start_time), "s")
     solution.print_table(len(sys.argv) > 2)
-    solution.to_file(sys.argv[1].replace(".json", "_sol.json"))
+    solution.to_file(sys.argv[1].replace(".json", "_solution.json"))

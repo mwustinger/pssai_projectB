@@ -19,9 +19,16 @@ python .\Solution.py .\ihtc2024_test_dataset\test01.json .\ihtc2024_test_solutio
 
 Run the script
 ```
+# Create a single solution from a dataset instance
 python .\Solver.py .\ihtc2024_test_dataset\test01.json  
 python ./Solver.py ./ihtc2024_test_dataset/test01.json
 
+# Validate a solution from a dataset instance and a solution
 .\IHTP_Validator.exe .\ihtc2024_test_dataset\test01.json .\ihtc2024_test_dataset\test01_sol.json
+./IHTP_Validator.exe ./ihtc2024_test_dataset/test01.json ./ihtc2024_test_dataset/test01_sol.json
+
+# Visualize a saved solution for a dataset instance
 python .\Solution.py .\ihtc2024_test_dataset\test01.json .\ihtc2024_test_solutions\sol_test01.json
+python ./Solution.py ./ihtc2024_test_dataset/test01.json ./ihtc2024_test_solutions/sol_test01.json
+
 ```
