@@ -4,8 +4,8 @@ import os
 from pathlib import Path
 import json  # Für JSON-Validierung
 
-def validate_all_solutions_macos(test_instance="ihtc2024_test_dataset/test01.json",
-                                 test_solution="ihtc2024_test_dataset/test01_sol_theater_inside_and_cost.json",
+def validate_all_solutions_macos(test_instance="ihtc2024_test_dataset/test06.json",
+                                 test_solution="ihtc2024_test_dataset/test06_solution.json",
                                  verbose=False):
     # Absoluter Pfad zum kompilierten Validator
     validator_path = os.path.abspath(os.path.join("validatorData", "IHTC_Validator"))
