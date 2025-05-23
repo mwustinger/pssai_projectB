@@ -7,7 +7,7 @@ from Solution import Solution
 WEIGHT_GENDER_MIX = 1e6         # H1
 WEIGHT_SURGEON_OVERTIME = 1e4   # H3
 WEIGHT_ROOM_CAPACITY = 1e5      # H7
-# H2, H5 and H6 are automatically given du to the solution representation
+# H2, H5 and H6 are automatically given due to the solution representation
 
 
 class GeneticPatient:
