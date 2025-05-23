@@ -2,200 +2,213 @@
   "patients": [
     {
       "id": "p00",
-      "admission_day": "none"
+      "admission_day": 14,
+      "room": "r0"
     },
     {
       "id": "p01",
-      "admission_day": 1,
-      "room": "r2"
+      "admission_day": 7,
+      "room": "r1"
     },
     {
       "id": "p02",
-      "admission_day": "none"
+      "admission_day": 16,
+      "room": "r3"
     },
     {
       "id": "p03",
-      "admission_day": "none"
+      "admission_day": 19,
+      "room": "r0"
     },
     {
       "id": "p04",
-      "admission_day": 3,
+      "admission_day": 16,
       "room": "r3"
     },
     {
       "id": "p05",
-      "admission_day": "none"
+      "admission_day": 8,
+      "room": "r1"
     },
     {
       "id": "p06",
-      "admission_day": "none"
+      "admission_day": 19,
+      "room": "r1"
     },
     {
       "id": "p07",
-      "admission_day": "none"
+      "admission_day": 19,
+      "room": "r0"
     },
     {
       "id": "p08",
-      "admission_day": "none"
+      "admission_day": 4,
+      "room": "r1"
     },
     {
       "id": "p09",
+      "admission_day": 13,
+      "room": "r4"
+    },
+    {
+      "id": "p10",
+      "admission_day": 17,
+      "room": "r1"
+    },
+    {
+      "id": "p11",
+      "admission_day": 16,
+      "room": "r3"
+    },
+    {
+      "id": "p12",
+      "admission_day": 8,
+      "room": "r3"
+    },
+    {
+      "id": "p13",
+      "admission_day": 13,
+      "room": "r3"
+    },
+    {
+      "id": "p14",
+      "admission_day": 11,
+      "room": "r3"
+    },
+    {
+      "id": "p15",
+      "admission_day": 17,
+      "room": "r4"
+    },
+    {
+      "id": "p16",
       "admission_day": 3,
       "room": "r2"
     },
     {
-      "id": "p10",
-      "admission_day": 4,
-      "room": "r3"
-    },
-    {
-      "id": "p11",
-      "admission_day": "none"
-    },
-    {
-      "id": "p12",
-      "admission_day": 13,
-      "room": "r1"
-    },
-    {
-      "id": "p13",
-      "admission_day": "none"
-    },
-    {
-      "id": "p14",
-      "admission_day": 8,
-      "room": "r1"
-    },
-    {
-      "id": "p15",
-      "admission_day": 19,
-      "room": "r3"
-    },
-    {
-      "id": "p16",
-      "admission_day": 8,
-      "room": "r1"
-    },
-    {
       "id": "p17",
-      "admission_day": "none"
+      "admission_day": 14,
+      "room": "r0"
     },
     {
       "id": "p18",
-      "admission_day": 11,
+      "admission_day": 13,
       "room": "r3"
     },
     {
       "id": "p19",
-      "admission_day": 13,
-      "room": "r3"
+      "admission_day": 3,
+      "room": "r1"
     },
     {
       "id": "p20",
-      "admission_day": "none"
+      "admission_day": 19,
+      "room": "r3"
     },
     {
       "id": "p21",
-      "admission_day": 7,
-      "room": "r0"
+      "admission_day": 8,
+      "room": "r1"
     },
     {
       "id": "p22",
-      "admission_day": 11,
-      "room": "r4"
+      "admission_day": 8,
+      "room": "r1"
     },
     {
       "id": "p23",
-      "admission_day": 7,
-      "room": "r2"
+      "admission_day": 19,
+      "room": "r3"
     },
     {
       "id": "p24",
-      "admission_day": 13,
-      "room": "r0"
+      "admission_day": 8,
+      "room": "r4"
     },
     {
       "id": "p25",
-      "admission_day": 17,
+      "admission_day": 19,
       "room": "r1"
     },
     {
       "id": "p26",
-      "admission_day": 17,
-      "room": "r0"
+      "admission_day": 16,
+      "room": "r1"
     },
     {
       "id": "p27",
-      "admission_day": 7,
-      "room": "r0"
+      "admission_day": 16,
+      "room": "r3"
     },
     {
       "id": "p28",
-      "admission_day": 19,
+      "admission_day": 14,
       "room": "r1"
     },
     {
       "id": "p29",
-      "admission_day": 14,
-      "room": "r2"
+      "admission_day": 19,
+      "room": "r1"
     },
     {
       "id": "p30",
-      "admission_day": 16,
-      "room": "r2"
+      "admission_day": 17,
+      "room": "r3"
     },
     {
       "id": "p31",
-      "admission_day": 11,
-      "room": "r0"
+      "admission_day": 8,
+      "room": "r3"
     },
     {
       "id": "p32",
-      "admission_day": 14,
+      "admission_day": 13,
       "room": "r0"
     },
     {
       "id": "p33",
-      "admission_day": 16,
-      "room": "r2"
+      "admission_day": 19,
+      "room": "r4"
     },
     {
       "id": "p34",
-      "admission_day": 14,
-      "room": "r0"
+      "admission_day": 16,
+      "room": "r4"
     },
     {
       "id": "p35",
-      "admission_day": 7,
-      "room": "r2"
+      "admission_day": 19,
+      "room": "r1"
     },
     {
       "id": "p36",
-      "admission_day": "none"
+      "admission_day": 13,
+      "room": "r4"
     },
     {
       "id": "p37",
       "admission_day": 4,
-      "room": "r4"
+      "room": "r1"
     },
     {
       "id": "p38",
-      "admission_day": "none"
+      "admission_day": 14,
+      "room": "r0"
     },
     {
       "id": "p39",
-      "admission_day": 19,
+      "admission_day": 7,
       "room": "r3"
     },
     {
       "id": "p40",
-      "admission_day": 16,
-      "room": "r2"
+      "admission_day": 13,
+      "room": "r3"
     },
     {
       "id": "p41",
-      "admission_day": 16,
-      "room": "r4"
+      "admission_day": 19,
+      "room": "r3"
     }
   ],
   "nurses": [
@@ -1129,8 +1142,5 @@
         }
       ]
     }
-  ],
-  "costs": [
-    "Cost: 3177, Unscheduled: 1200,  Delay: 660,  OpenOT: 330,  AgeMix: 35,  Skill: 43,  Excess: 24,  Continuity: 885,  SurgeonTransfer: 0"
   ]
 }
