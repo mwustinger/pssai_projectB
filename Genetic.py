@@ -77,6 +77,14 @@ class GeneticSolution:
         fitness += self.instance.weights.unscheduled_optional * np.sum(scheduled)
         return fitness
     
+    def to_solution(self):
+        solution = Solution(self.instance)
+        for pid, admission_day, room_assignment in zip(self.instance.patients.keys(), self.admission_days, self.room_assignments):
+            if admission_day < self.instance.days:  # last day is seen as unscheduled
+                solution.patients[pid].admission_day = int(admission_day)
+                solution.patients[pid].room = self.instance.rooms_to_ids[room_assignment]
+        return solution
+    
 
 class GeneticSolver:
     def __init__(self, instance: Instance, random_seed: int = 42):
@@ -108,20 +116,11 @@ class GeneticSolver:
         # TODO The actual Genetic Algorithm 
         # Initialize the population
         # self.population = [self.generate_solution() for _ in range(10)]
-        return self.solution_of(self.generate_solution()) # Return the best solution here
+        return self.generate_solution().to_solution() # Return the best solution here
 
     def crossover(gs1: GeneticSolution, gs2: GeneticSolution):
         # TODO generate children from parents
         pass
-
-    def solution_of(self, gs: GeneticSolution):
-        solution = Solution(self.instance)
-        for p, admission_day, room_assignment in zip(self.patients, gs.admission_days, gs.room_assignments):
-            if admission_day < self.instance.days:  # last day is seen as unscheduled
-                solution.patients[p.id].admission_day = int(admission_day)
-                solution.patients[p.id].room = self.instance.rooms_to_ids[room_assignment]
-
-        return solution
 
 if __name__ == "__main__":
     instance = Instance.from_file(sys.argv[1])
