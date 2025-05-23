@@ -2,2628 +2,2103 @@
   "patients": [
     {
       "id": "p000",
-      "admission_day": 17,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p001",
-      "admission_day": 8,
-      "room": "r21"
+      "admission_day": "none"
     },
     {
       "id": "p002",
-      "admission_day": 19,
-      "room": "r28"
+      "admission_day": "none"
     },
     {
       "id": "p003",
-      "admission_day": 13,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p004",
-      "admission_day": 17,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p005",
-      "admission_day": 10,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p006",
-      "admission_day": 8,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p007",
-      "admission_day": 19,
-      "room": "r45"
+      "admission_day": "none"
     },
     {
       "id": "p008",
-      "admission_day": 3,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p009",
-      "admission_day": 16,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p010",
-      "admission_day": 18,
-      "room": "r15"
+      "admission_day": "none"
     },
     {
       "id": "p011",
-      "admission_day": 9,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p012",
-      "admission_day": 4,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p013",
-      "admission_day": 17,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p014",
-      "admission_day": 14,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p015",
-      "admission_day": 3,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p016",
-      "admission_day": 7,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p017",
-      "admission_day": 11,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p018",
-      "admission_day": 2,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p019",
-      "admission_day": 17,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p020",
-      "admission_day": 9,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p021",
-      "admission_day": 8,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p022",
-      "admission_day": 8,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p023",
-      "admission_day": 19,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p024",
-      "admission_day": 16,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p025",
-      "admission_day": 13,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p026",
-      "admission_day": 1,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p027",
-      "admission_day": 14,
-      "room": "r31"
+      "admission_day": "none"
     },
     {
       "id": "p028",
-      "admission_day": 19,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p029",
-      "admission_day": 8,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p030",
-      "admission_day": 16,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p031",
-      "admission_day": 19,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p032",
-      "admission_day": 17,
-      "room": "r15"
+      "admission_day": "none"
     },
     {
       "id": "p033",
-      "admission_day": 1,
-      "room": "r23"
+      "admission_day": "none"
     },
     {
       "id": "p034",
-      "admission_day": 18,
-      "room": "r15"
+      "admission_day": "none"
     },
     {
       "id": "p035",
-      "admission_day": 19,
-      "room": "r01"
+      "admission_day": "none"
     },
     {
       "id": "p036",
-      "admission_day": 8,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p037",
-      "admission_day": 7,
-      "room": "r31"
+      "admission_day": "none"
     },
     {
       "id": "p038",
-      "admission_day": 14,
-      "room": "r26"
+      "admission_day": "none"
     },
     {
       "id": "p039",
-      "admission_day": 11,
-      "room": "r19"
+      "admission_day": "none"
     },
     {
       "id": "p040",
-      "admission_day": 7,
-      "room": "r23"
+      "admission_day": "none"
     },
     {
       "id": "p041",
-      "admission_day": 11,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p042",
-      "admission_day": 3,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p043",
-      "admission_day": 9,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p044",
-      "admission_day": 6,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p045",
-      "admission_day": 10,
-      "room": "r42"
+      "admission_day": "none"
     },
     {
       "id": "p046",
-      "admission_day": 7,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p047",
-      "admission_day": 17,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p048",
-      "admission_day": 10,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p049",
-      "admission_day": 3,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p050",
-      "admission_day": 11,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p051",
-      "admission_day": 1,
-      "room": "r39"
+      "admission_day": "none"
     },
     {
       "id": "p052",
-      "admission_day": 16,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p053",
-      "admission_day": 13,
-      "room": "r42"
+      "admission_day": "none"
     },
     {
       "id": "p054",
-      "admission_day": 2,
-      "room": "r43"
+      "admission_day": "none"
     },
     {
       "id": "p055",
-      "admission_day": 16,
-      "room": "r28"
+      "admission_day": "none"
     },
     {
       "id": "p056",
-      "admission_day": 17,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p057",
-      "admission_day": 17,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p058",
-      "admission_day": 4,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p059",
-      "admission_day": 14,
-      "room": "r45"
+      "admission_day": "none"
     },
     {
       "id": "p060",
-      "admission_day": 4,
-      "room": "r01"
+      "admission_day": "none"
     },
     {
       "id": "p061",
-      "admission_day": 20,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p062",
-      "admission_day": 8,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p063",
-      "admission_day": 13,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p064",
-      "admission_day": 13,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p065",
-      "admission_day": 6,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p066",
-      "admission_day": 2,
-      "room": "r28"
+      "admission_day": "none"
     },
     {
       "id": "p067",
-      "admission_day": 16,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p068",
-      "admission_day": 3,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p069",
-      "admission_day": 16,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p070",
-      "admission_day": 9,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p071",
-      "admission_day": 2,
-      "room": "r40"
+      "admission_day": "none"
     },
     {
       "id": "p072",
-      "admission_day": 11,
-      "room": "r06"
+      "admission_day": "none"
     },
     {
       "id": "p073",
-      "admission_day": 14,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p074",
-      "admission_day": 14,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p075",
-      "admission_day": 4,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p076",
-      "admission_day": 13,
-      "room": "r28"
+      "admission_day": "none"
     },
     {
       "id": "p077",
-      "admission_day": 8,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p078",
-      "admission_day": 19,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p079",
-      "admission_day": 7,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p080",
-      "admission_day": 17,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p081",
-      "admission_day": 14,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p082",
-      "admission_day": 5,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p083",
-      "admission_day": 17,
-      "room": "r08"
+      "admission_day": "none"
     },
     {
       "id": "p084",
-      "admission_day": 15,
-      "room": "r23"
+      "admission_day": "none"
     },
     {
       "id": "p085",
-      "admission_day": 6,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p086",
-      "admission_day": 16,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p087",
-      "admission_day": 8,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p088",
-      "admission_day": 11,
-      "room": "r17"
+      "admission_day": "none"
     },
     {
       "id": "p089",
-      "admission_day": 9,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p090",
-      "admission_day": 19,
-      "room": "r31"
+      "admission_day": "none"
     },
     {
       "id": "p091",
-      "admission_day": 17,
-      "room": "r23"
+      "admission_day": "none"
     },
     {
       "id": "p092",
-      "admission_day": 13,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p093",
-      "admission_day": 19,
-      "room": "r31"
+      "admission_day": "none"
     },
     {
       "id": "p094",
-      "admission_day": 4,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p095",
-      "admission_day": 5,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p096",
-      "admission_day": 16,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p097",
-      "admission_day": 14,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p098",
-      "admission_day": 9,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p099",
-      "admission_day": 11,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p100",
-      "admission_day": 16,
-      "room": "r40"
+      "admission_day": "none"
     },
     {
       "id": "p101",
-      "admission_day": 17,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p102",
-      "admission_day": 1,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p103",
-      "admission_day": 16,
-      "room": "r19"
+      "admission_day": "none"
     },
     {
       "id": "p104",
-      "admission_day": 17,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p105",
-      "admission_day": 8,
-      "room": "r21"
+      "admission_day": "none"
     },
     {
       "id": "p106",
-      "admission_day": 15,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p107",
-      "admission_day": 9,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p108",
-      "admission_day": 7,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p109",
-      "admission_day": 9,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p110",
-      "admission_day": 7,
-      "room": "r40"
+      "admission_day": "none"
     },
     {
       "id": "p111",
-      "admission_day": 2,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p112",
-      "admission_day": 19,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p113",
-      "admission_day": 16,
-      "room": "r08"
+      "admission_day": "none"
     },
     {
       "id": "p114",
-      "admission_day": 4,
-      "room": "r06"
+      "admission_day": "none"
     },
     {
       "id": "p115",
-      "admission_day": 1,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p116",
-      "admission_day": 11,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p117",
-      "admission_day": 14,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p118",
-      "admission_day": 16,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p119",
-      "admission_day": 16,
-      "room": "r15"
+      "admission_day": "none"
     },
     {
       "id": "p120",
-      "admission_day": 11,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p121",
-      "admission_day": 10,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p122",
-      "admission_day": 16,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p123",
-      "admission_day": 9,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p124",
-      "admission_day": 11,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p125",
-      "admission_day": 9,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p126",
-      "admission_day": 9,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p127",
-      "admission_day": 7,
-      "room": "r15"
+      "admission_day": "none"
     },
     {
       "id": "p128",
-      "admission_day": 7,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p129",
-      "admission_day": 11,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p130",
-      "admission_day": 14,
-      "room": "r41"
+      "admission_day": "none"
     },
     {
       "id": "p131",
-      "admission_day": 8,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p132",
-      "admission_day": 16,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p133",
-      "admission_day": 17,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p134",
-      "admission_day": 7,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p135",
-      "admission_day": 8,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p136",
-      "admission_day": 4,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p137",
-      "admission_day": 3,
-      "room": "r28"
+      "admission_day": "none"
     },
     {
       "id": "p138",
-      "admission_day": 14,
-      "room": "r42"
+      "admission_day": "none"
     },
     {
       "id": "p139",
-      "admission_day": 11,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p140",
-      "admission_day": 14,
-      "room": "r17"
+      "admission_day": "none"
     },
     {
       "id": "p141",
-      "admission_day": 3,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p142",
-      "admission_day": 9,
-      "room": "r08"
+      "admission_day": "none"
     },
     {
       "id": "p143",
-      "admission_day": 18,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p144",
-      "admission_day": 8,
-      "room": "r43"
+      "admission_day": "none"
     },
     {
       "id": "p145",
-      "admission_day": 8,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p146",
-      "admission_day": 14,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p147",
-      "admission_day": 14,
-      "room": "r06"
+      "admission_day": "none"
     },
     {
       "id": "p148",
-      "admission_day": 14,
-      "room": "r45"
+      "admission_day": "none"
     },
     {
       "id": "p149",
-      "admission_day": 14,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p150",
-      "admission_day": 18,
-      "room": "r39"
+      "admission_day": "none"
     },
     {
       "id": "p151",
-      "admission_day": 14,
-      "room": "r41"
+      "admission_day": "none"
     },
     {
       "id": "p152",
-      "admission_day": 11,
-      "room": "r08"
+      "admission_day": "none"
     },
     {
       "id": "p153",
-      "admission_day": 19,
-      "room": "r26"
+      "admission_day": "none"
     },
     {
       "id": "p154",
-      "admission_day": 16,
-      "room": "r01"
+      "admission_day": "none"
     },
     {
       "id": "p155",
-      "admission_day": 11,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p156",
-      "admission_day": 4,
-      "room": "r28"
+      "admission_day": "none"
     },
     {
       "id": "p157",
-      "admission_day": 13,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p158",
-      "admission_day": 7,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p159",
-      "admission_day": 17,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p160",
-      "admission_day": 16,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p161",
-      "admission_day": 19,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p162",
-      "admission_day": 17,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p163",
-      "admission_day": 19,
-      "room": "r21"
+      "admission_day": "none"
     },
     {
       "id": "p164",
-      "admission_day": 4,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p165",
-      "admission_day": 13,
-      "room": "r06"
+      "admission_day": "none"
     },
     {
       "id": "p166",
-      "admission_day": 17,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p167",
-      "admission_day": 7,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p168",
-      "admission_day": 10,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p169",
-      "admission_day": 13,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p170",
-      "admission_day": 7,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p171",
-      "admission_day": 16,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p172",
-      "admission_day": 17,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p173",
-      "admission_day": 11,
-      "room": "r43"
+      "admission_day": "none"
     },
     {
       "id": "p174",
-      "admission_day": 19,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p175",
-      "admission_day": 13,
-      "room": "r26"
+      "admission_day": "none"
     },
     {
       "id": "p176",
-      "admission_day": 14,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p177",
-      "admission_day": 18,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p178",
-      "admission_day": 13,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p179",
-      "admission_day": 9,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p180",
-      "admission_day": 20,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p181",
-      "admission_day": 14,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p182",
-      "admission_day": 3,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p183",
-      "admission_day": 16,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p184",
-      "admission_day": 7,
-      "room": "r19"
+      "admission_day": "none"
     },
     {
       "id": "p185",
-      "admission_day": 13,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p186",
-      "admission_day": 7,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p187",
-      "admission_day": 1,
-      "room": "r40"
+      "admission_day": "none"
     },
     {
       "id": "p188",
-      "admission_day": 16,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p189",
-      "admission_day": 11,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p190",
-      "admission_day": 18,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p191",
-      "admission_day": 14,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p192",
-      "admission_day": 17,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p193",
-      "admission_day": 9,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p194",
-      "admission_day": 9,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p195",
-      "admission_day": 6,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p196",
-      "admission_day": 14,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p197",
-      "admission_day": 15,
-      "room": "r43"
+      "admission_day": "none"
     },
     {
       "id": "p198",
-      "admission_day": 13,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p199",
-      "admission_day": 11,
-      "room": "r31"
+      "admission_day": "none"
     },
     {
       "id": "p200",
-      "admission_day": 16,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p201",
-      "admission_day": 12,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p202",
-      "admission_day": 14,
-      "room": "r15"
+      "admission_day": "none"
     },
     {
       "id": "p203",
-      "admission_day": 8,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p204",
-      "admission_day": 15,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p205",
-      "admission_day": 13,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p206",
-      "admission_day": 12,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p207",
-      "admission_day": 14,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p208",
-      "admission_day": 13,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p209",
-      "admission_day": 14,
-      "room": "r19"
+      "admission_day": "none"
     },
     {
       "id": "p210",
-      "admission_day": 17,
-      "room": "r17"
+      "admission_day": "none"
     },
     {
       "id": "p211",
-      "admission_day": 14,
-      "room": "r40"
+      "admission_day": "none"
     },
     {
       "id": "p212",
-      "admission_day": 9,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p213",
-      "admission_day": 11,
-      "room": "r14"
+      "admission_day": "none"
     },
     {
       "id": "p214",
-      "admission_day": 15,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p215",
-      "admission_day": 14,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p216",
-      "admission_day": 13,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p217",
-      "admission_day": 5,
-      "room": "r15"
+      "admission_day": "none"
     },
     {
       "id": "p218",
-      "admission_day": 16,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p219",
-      "admission_day": 2,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p220",
-      "admission_day": 16,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p221",
-      "admission_day": 2,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p222",
-      "admission_day": 5,
-      "room": "r31"
+      "admission_day": "none"
     },
     {
       "id": "p223",
-      "admission_day": 13,
-      "room": "r15"
+      "admission_day": "none"
     },
     {
       "id": "p224",
-      "admission_day": 5,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p225",
-      "admission_day": 2,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p226",
-      "admission_day": 8,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p227",
-      "admission_day": 3,
-      "room": "r23"
+      "admission_day": "none"
     },
     {
       "id": "p228",
-      "admission_day": 12,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p229",
-      "admission_day": 11,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p230",
-      "admission_day": 14,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p231",
-      "admission_day": 3,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p232",
-      "admission_day": 4,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p233",
-      "admission_day": 6,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p234",
-      "admission_day": 8,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p235",
-      "admission_day": 16,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p236",
-      "admission_day": 6,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p237",
-      "admission_day": 16,
-      "room": "r40"
+      "admission_day": "none"
     },
     {
       "id": "p238",
-      "admission_day": 16,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p239",
-      "admission_day": 11,
-      "room": "r26"
+      "admission_day": "none"
     },
     {
       "id": "p240",
-      "admission_day": 17,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p241",
-      "admission_day": 19,
-      "room": "r08"
+      "admission_day": "none"
     },
     {
       "id": "p242",
-      "admission_day": 17,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p243",
-      "admission_day": 13,
-      "room": "r19"
+      "admission_day": "none"
     },
     {
       "id": "p244",
-      "admission_day": 1,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p245",
-      "admission_day": 13,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p246",
-      "admission_day": 19,
-      "room": "r28"
+      "admission_day": "none"
     },
     {
       "id": "p247",
-      "admission_day": 6,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p248",
-      "admission_day": 17,
-      "room": "r45"
+      "admission_day": "none"
     },
     {
       "id": "p249",
-      "admission_day": 4,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p250",
-      "admission_day": 4,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p251",
-      "admission_day": 11,
-      "room": "r17"
+      "admission_day": "none"
     },
     {
       "id": "p252",
-      "admission_day": 2,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p253",
-      "admission_day": 8,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p254",
-      "admission_day": 9,
-      "room": "r01"
+      "admission_day": "none"
     },
     {
       "id": "p255",
-      "admission_day": 19,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p256",
-      "admission_day": 16,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p257",
-      "admission_day": 14,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p258",
-      "admission_day": 14,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p259",
-      "admission_day": 5,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p260",
-      "admission_day": 7,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p261",
-      "admission_day": 14,
-      "room": "r17"
+      "admission_day": "none"
     },
     {
       "id": "p262",
-      "admission_day": 16,
-      "room": "r31"
+      "admission_day": "none"
     },
     {
       "id": "p263",
-      "admission_day": 11,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p264",
-      "admission_day": 6,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p265",
-      "admission_day": 8,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p266",
-      "admission_day": 9,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p267",
-      "admission_day": 9,
-      "room": "r21"
+      "admission_day": "none"
     },
     {
       "id": "p268",
-      "admission_day": 3,
-      "room": "r26"
+      "admission_day": "none"
     },
     {
       "id": "p269",
-      "admission_day": 13,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p270",
-      "admission_day": 14,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p271",
-      "admission_day": 13,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p272",
-      "admission_day": 9,
-      "room": "r40"
+      "admission_day": "none"
     },
     {
       "id": "p273",
-      "admission_day": 16,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p274",
-      "admission_day": 20,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p275",
-      "admission_day": 13,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p276",
-      "admission_day": 16,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p277",
-      "admission_day": 2,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p278",
-      "admission_day": 8,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p279",
-      "admission_day": 11,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p280",
-      "admission_day": 16,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p281",
-      "admission_day": 11,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p282",
-      "admission_day": 11,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p283",
-      "admission_day": 19,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p284",
-      "admission_day": 15,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p285",
-      "admission_day": 16,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p286",
-      "admission_day": 11,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p287",
-      "admission_day": 17,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p288",
-      "admission_day": 13,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p289",
-      "admission_day": 8,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p290",
-      "admission_day": 14,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p291",
-      "admission_day": 7,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p292",
-      "admission_day": 7,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p293",
-      "admission_day": 12,
-      "room": "r08"
+      "admission_day": "none"
     },
     {
       "id": "p294",
-      "admission_day": 12,
-      "room": "r45"
+      "admission_day": "none"
     },
     {
       "id": "p295",
-      "admission_day": 17,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p296",
-      "admission_day": 14,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p297",
-      "admission_day": 13,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p298",
-      "admission_day": 17,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p299",
-      "admission_day": 8,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p300",
-      "admission_day": 7,
-      "room": "r39"
+      "admission_day": "none"
     },
     {
       "id": "p301",
-      "admission_day": 6,
-      "room": "r31"
+      "admission_day": "none"
     },
     {
       "id": "p302",
-      "admission_day": 7,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p303",
-      "admission_day": 13,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p304",
-      "admission_day": 4,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p305",
-      "admission_day": 18,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p306",
-      "admission_day": 11,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p307",
-      "admission_day": 14,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p308",
-      "admission_day": 19,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p309",
-      "admission_day": 1,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p310",
-      "admission_day": 13,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p311",
-      "admission_day": 13,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p312",
-      "admission_day": 17,
-      "room": "r43"
+      "admission_day": "none"
     },
     {
       "id": "p313",
-      "admission_day": 15,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p314",
-      "admission_day": 13,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p315",
-      "admission_day": 18,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p316",
-      "admission_day": 15,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p317",
-      "admission_day": 19,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p318",
-      "admission_day": 16,
-      "room": "r14"
+      "admission_day": "none"
     },
     {
       "id": "p319",
-      "admission_day": 11,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p320",
-      "admission_day": 7,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p321",
-      "admission_day": 13,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p322",
-      "admission_day": 10,
-      "room": "r01"
+      "admission_day": "none"
     },
     {
       "id": "p323",
-      "admission_day": 14,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p324",
-      "admission_day": 5,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p325",
-      "admission_day": 2,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p326",
-      "admission_day": 14,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p327",
-      "admission_day": 17,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p328",
-      "admission_day": 16,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p329",
-      "admission_day": 17,
-      "room": "r17"
+      "admission_day": "none"
     },
     {
       "id": "p330",
-      "admission_day": 7,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p331",
-      "admission_day": 13,
-      "room": "r14"
+      "admission_day": "none"
     },
     {
       "id": "p332",
-      "admission_day": 14,
-      "room": "r26"
+      "admission_day": "none"
     },
     {
       "id": "p333",
-      "admission_day": 16,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p334",
-      "admission_day": 19,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p335",
-      "admission_day": 16,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p336",
-      "admission_day": 13,
-      "room": "r23"
+      "admission_day": "none"
     },
     {
       "id": "p337",
-      "admission_day": 15,
-      "room": "r14"
+      "admission_day": "none"
     },
     {
       "id": "p338",
-      "admission_day": 15,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p339",
-      "admission_day": 16,
-      "room": "r41"
+      "admission_day": "none"
     },
     {
       "id": "p340",
-      "admission_day": 19,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p341",
-      "admission_day": 16,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p342",
-      "admission_day": 16,
-      "room": "r28"
+      "admission_day": "none"
     },
     {
       "id": "p343",
-      "admission_day": 9,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p344",
-      "admission_day": 3,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p345",
-      "admission_day": 19,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p346",
-      "admission_day": 8,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p347",
-      "admission_day": 11,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p348",
-      "admission_day": 9,
-      "room": "r19"
+      "admission_day": "none"
     },
     {
       "id": "p349",
-      "admission_day": 19,
-      "room": "r23"
+      "admission_day": "none"
     },
     {
       "id": "p350",
-      "admission_day": 18,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p351",
-      "admission_day": 19,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p352",
-      "admission_day": 16,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p353",
-      "admission_day": 15,
-      "room": "r01"
+      "admission_day": "none"
     },
     {
       "id": "p354",
-      "admission_day": 16,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p355",
-      "admission_day": 10,
-      "room": "r42"
+      "admission_day": "none"
     },
     {
       "id": "p356",
-      "admission_day": 11,
-      "room": "r42"
+      "admission_day": "none"
     },
     {
       "id": "p357",
-      "admission_day": 19,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p358",
-      "admission_day": 18,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p359",
-      "admission_day": 14,
-      "room": "r15"
+      "admission_day": "none"
     },
     {
       "id": "p360",
-      "admission_day": 4,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p361",
-      "admission_day": 11,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p362",
-      "admission_day": 8,
-      "room": "r15"
+      "admission_day": "none"
     },
     {
       "id": "p363",
-      "admission_day": 7,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p364",
-      "admission_day": 14,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p365",
-      "admission_day": 14,
-      "room": "r39"
+      "admission_day": "none"
     },
     {
       "id": "p366",
-      "admission_day": 19,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p367",
-      "admission_day": 2,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p368",
-      "admission_day": 9,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p369",
-      "admission_day": 8,
-      "room": "r31"
+      "admission_day": "none"
     },
     {
       "id": "p370",
-      "admission_day": 13,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p371",
-      "admission_day": 11,
-      "room": "r26"
+      "admission_day": "none"
     },
     {
       "id": "p372",
-      "admission_day": 7,
-      "room": "r28"
+      "admission_day": "none"
     },
     {
       "id": "p373",
-      "admission_day": 1,
-      "room": "r31"
+      "admission_day": "none"
     },
     {
       "id": "p374",
-      "admission_day": 17,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p375",
-      "admission_day": 15,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p376",
-      "admission_day": 11,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p377",
-      "admission_day": 7,
-      "room": "r17"
+      "admission_day": "none"
     },
     {
       "id": "p378",
-      "admission_day": 13,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p379",
-      "admission_day": 11,
-      "room": "r41"
+      "admission_day": "none"
     },
     {
       "id": "p380",
-      "admission_day": 13,
-      "room": "r21"
+      "admission_day": "none"
     },
     {
       "id": "p381",
-      "admission_day": 8,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p382",
-      "admission_day": 16,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p383",
-      "admission_day": 13,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p384",
-      "admission_day": 8,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p385",
-      "admission_day": 16,
-      "room": "r40"
+      "admission_day": "none"
     },
     {
       "id": "p386",
-      "admission_day": 17,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p387",
-      "admission_day": 19,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p388",
-      "admission_day": 13,
-      "room": "r45"
+      "admission_day": "none"
     },
     {
       "id": "p389",
-      "admission_day": 8,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p390",
-      "admission_day": 17,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p391",
-      "admission_day": 11,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p392",
-      "admission_day": 17,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p393",
-      "admission_day": 14,
-      "room": "r26"
+      "admission_day": "none"
     },
     {
       "id": "p394",
-      "admission_day": 19,
-      "room": "r08"
+      "admission_day": "none"
     },
     {
       "id": "p395",
-      "admission_day": 8,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p396",
-      "admission_day": 19,
-      "room": "r21"
+      "admission_day": "none"
     },
     {
       "id": "p397",
-      "admission_day": 9,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p398",
-      "admission_day": 19,
-      "room": "r42"
+      "admission_day": "none"
     },
     {
       "id": "p399",
-      "admission_day": 4,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p400",
-      "admission_day": 19,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p401",
-      "admission_day": 2,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p402",
-      "admission_day": 14,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p403",
-      "admission_day": 11,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p404",
-      "admission_day": 9,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p405",
-      "admission_day": 13,
-      "room": "r14"
+      "admission_day": "none"
     },
     {
       "id": "p406",
-      "admission_day": 16,
-      "room": "r21"
+      "admission_day": "none"
     },
     {
       "id": "p407",
-      "admission_day": 9,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p408",
-      "admission_day": 16,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p409",
-      "admission_day": 17,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p410",
-      "admission_day": 10,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p411",
-      "admission_day": 19,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p412",
-      "admission_day": 8,
-      "room": "r23"
+      "admission_day": "none"
     },
     {
       "id": "p413",
-      "admission_day": 8,
-      "room": "r01"
+      "admission_day": "none"
     },
     {
       "id": "p414",
-      "admission_day": 14,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p415",
-      "admission_day": 8,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p416",
-      "admission_day": 6,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p417",
-      "admission_day": 14,
-      "room": "r06"
+      "admission_day": "none"
     },
     {
       "id": "p418",
-      "admission_day": 4,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p419",
-      "admission_day": 9,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p420",
-      "admission_day": 13,
-      "room": "r45"
+      "admission_day": "none"
     },
     {
       "id": "p421",
-      "admission_day": 14,
-      "room": "r42"
+      "admission_day": "none"
     },
     {
       "id": "p422",
-      "admission_day": 17,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p423",
-      "admission_day": 19,
-      "room": "r17"
+      "admission_day": "none"
     },
     {
       "id": "p424",
-      "admission_day": 11,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p425",
-      "admission_day": 7,
-      "room": "r34"
+      "admission_day": "none"
     },
     {
       "id": "p426",
-      "admission_day": 9,
-      "room": "r14"
+      "admission_day": "none"
     },
     {
       "id": "p427",
-      "admission_day": 13,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p428",
-      "admission_day": 11,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p429",
-      "admission_day": 13,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p430",
-      "admission_day": 11,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p431",
-      "admission_day": 14,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p432",
-      "admission_day": 11,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p433",
-      "admission_day": 14,
-      "room": "r38"
+      "admission_day": "none"
     },
     {
       "id": "p434",
-      "admission_day": 14,
-      "room": "r21"
+      "admission_day": "none"
     },
     {
       "id": "p435",
-      "admission_day": 7,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p436",
-      "admission_day": 19,
-      "room": "r43"
+      "admission_day": "none"
     },
     {
       "id": "p437",
-      "admission_day": 16,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p438",
-      "admission_day": 16,
-      "room": "r16"
+      "admission_day": "none"
     },
     {
       "id": "p439",
-      "admission_day": 14,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p440",
-      "admission_day": 15,
-      "room": "r19"
+      "admission_day": "none"
     },
     {
       "id": "p441",
-      "admission_day": 7,
-      "room": "r24"
+      "admission_day": "none"
     },
     {
       "id": "p442",
-      "admission_day": 14,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p443",
-      "admission_day": 17,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p444",
-      "admission_day": 14,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p445",
-      "admission_day": 16,
-      "room": "r40"
+      "admission_day": "none"
     },
     {
       "id": "p446",
-      "admission_day": 19,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p447",
-      "admission_day": 18,
-      "room": "r17"
+      "admission_day": "none"
     },
     {
       "id": "p448",
-      "admission_day": 8,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p449",
-      "admission_day": 15,
-      "room": "r21"
+      "admission_day": "none"
     },
     {
       "id": "p450",
-      "admission_day": 14,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p451",
-      "admission_day": 15,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p452",
-      "admission_day": 11,
-      "room": "r39"
+      "admission_day": "none"
     },
     {
       "id": "p453",
-      "admission_day": 9,
-      "room": "r43"
+      "admission_day": "none"
     },
     {
       "id": "p454",
-      "admission_day": 19,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p455",
-      "admission_day": 16,
-      "room": "r41"
+      "admission_day": "none"
     },
     {
       "id": "p456",
-      "admission_day": 16,
-      "room": "r40"
+      "admission_day": "none"
     },
     {
       "id": "p457",
-      "admission_day": 8,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p458",
-      "admission_day": 13,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p459",
-      "admission_day": 15,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p460",
-      "admission_day": 19,
-      "room": "r33"
+      "admission_day": "none"
     },
     {
       "id": "p461",
-      "admission_day": 14,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p462",
-      "admission_day": 20,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p463",
-      "admission_day": 11,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p464",
-      "admission_day": 14,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p465",
-      "admission_day": 16,
-      "room": "r21"
+      "admission_day": "none"
     },
     {
       "id": "p466",
-      "admission_day": 16,
-      "room": "r20"
+      "admission_day": "none"
     },
     {
       "id": "p467",
-      "admission_day": 19,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p468",
-      "admission_day": 7,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p469",
-      "admission_day": 1,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p470",
-      "admission_day": 10,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p471",
-      "admission_day": 17,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p472",
-      "admission_day": 17,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p473",
-      "admission_day": 19,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p474",
-      "admission_day": 9,
-      "room": "r23"
+      "admission_day": "none"
     },
     {
       "id": "p475",
-      "admission_day": 14,
-      "room": "r08"
+      "admission_day": "none"
     },
     {
       "id": "p476",
-      "admission_day": 16,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p477",
-      "admission_day": 19,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p478",
-      "admission_day": 12,
-      "room": "r39"
+      "admission_day": "none"
     },
     {
       "id": "p479",
-      "admission_day": 17,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p480",
-      "admission_day": 7,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p481",
-      "admission_day": 20,
-      "room": "r23"
+      "admission_day": "none"
     },
     {
       "id": "p482",
-      "admission_day": 16,
-      "room": "r30"
+      "admission_day": "none"
     },
     {
       "id": "p483",
-      "admission_day": 14,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p484",
-      "admission_day": 17,
-      "room": "r01"
+      "admission_day": "none"
     },
     {
       "id": "p485",
-      "admission_day": 11,
-      "room": "r19"
+      "admission_day": "none"
     },
     {
       "id": "p486",
-      "admission_day": 16,
-      "room": "r27"
+      "admission_day": "none"
     },
     {
       "id": "p487",
-      "admission_day": 18,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p488",
-      "admission_day": 19,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p489",
-      "admission_day": 13,
-      "room": "r14"
+      "admission_day": "none"
     },
     {
       "id": "p490",
-      "admission_day": 19,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p491",
-      "admission_day": 19,
-      "room": "r29"
+      "admission_day": "none"
     },
     {
       "id": "p492",
-      "admission_day": 5,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p493",
-      "admission_day": 13,
-      "room": "r01"
+      "admission_day": "none"
     },
     {
       "id": "p494",
-      "admission_day": 19,
-      "room": "r14"
+      "admission_day": "none"
     },
     {
       "id": "p495",
-      "admission_day": 16,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p496",
-      "admission_day": 16,
-      "room": "r07"
+      "admission_day": "none"
     },
     {
       "id": "p497",
-      "admission_day": 13,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p498",
-      "admission_day": 17,
-      "room": "r44"
+      "admission_day": "none"
     },
     {
       "id": "p499",
-      "admission_day": 13,
-      "room": "r43"
+      "admission_day": "none"
     },
     {
       "id": "p500",
-      "admission_day": 14,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p501",
-      "admission_day": 9,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p502",
-      "admission_day": 10,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p503",
-      "admission_day": 6,
-      "room": "r03"
+      "admission_day": "none"
     },
     {
       "id": "p504",
-      "admission_day": 14,
-      "room": "r18"
+      "admission_day": "none"
     },
     {
       "id": "p505",
-      "admission_day": 17,
-      "room": "r19"
+      "admission_day": "none"
     },
     {
       "id": "p506",
-      "admission_day": 11,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p507",
-      "admission_day": 11,
-      "room": "r19"
+      "admission_day": "none"
     },
     {
       "id": "p508",
-      "admission_day": 13,
-      "room": "r11"
+      "admission_day": "none"
     },
     {
       "id": "p509",
-      "admission_day": 16,
-      "room": "r00"
+      "admission_day": "none"
     },
     {
       "id": "p510",
-      "admission_day": 17,
-      "room": "r25"
+      "admission_day": "none"
     },
     {
       "id": "p511",
-      "admission_day": 17,
-      "room": "r13"
+      "admission_day": "none"
     },
     {
       "id": "p512",
-      "admission_day": 16,
-      "room": "r37"
+      "admission_day": "none"
     },
     {
       "id": "p513",
-      "admission_day": 13,
-      "room": "r36"
+      "admission_day": "none"
     },
     {
       "id": "p514",
-      "admission_day": 13,
-      "room": "r10"
+      "admission_day": "none"
     },
     {
       "id": "p515",
-      "admission_day": 13,
-      "room": "r35"
+      "admission_day": "none"
     },
     {
       "id": "p516",
-      "admission_day": 4,
-      "room": "r12"
+      "admission_day": "none"
     },
     {
       "id": "p517",
-      "admission_day": 14,
-      "room": "r42"
+      "admission_day": "none"
     },
     {
       "id": "p518",
-      "admission_day": 19,
-      "room": "r02"
+      "admission_day": "none"
     },
     {
       "id": "p519",
-      "admission_day": 19,
-      "room": "r32"
+      "admission_day": "none"
     },
     {
       "id": "p520",
-      "admission_day": 14,
-      "room": "r05"
+      "admission_day": "none"
     },
     {
       "id": "p521",
-      "admission_day": 5,
-      "room": "r09"
+      "admission_day": "none"
     },
     {
       "id": "p522",
-      "admission_day": 16,
-      "room": "r04"
+      "admission_day": "none"
     },
     {
       "id": "p523",
-      "admission_day": 13,
-      "room": "r22"
+      "admission_day": "none"
     },
     {
       "id": "p524",
-      "admission_day": 5,
-      "room": "r09"
+      "admission_day": "none"
     }
   ],
   "nurses": [

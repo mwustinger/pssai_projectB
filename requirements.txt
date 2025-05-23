@@ -1,0 +1,5 @@
+dataclasses_json
+minizinc
+pandas
+colour
+great_tables
