@@ -3,6 +3,7 @@ import time
 import numpy as np
 from Instance import Instance, NewPatient
 from Solution import Solution
+import matplotlib.pyplot as plt
 
 WEIGHT_GENDER_MIX = 1e6         # H1
 WEIGHT_SURGEON_OVERTIME = 1e4   # H3
@@ -90,7 +91,7 @@ class GeneticSolution:
 
         # S8 Schedule as many optional patients as possible
         fitness += self.instance.weights.unscheduled_optional * np.sum(scheduled)
-        return -fitness
+        return fitness
     
     def to_solution(self):
         solution = Solution(self.instance)
@@ -180,9 +181,9 @@ class GeneticSolver:
         return GeneticSolution(mother.instance, child_admision_days, child_room_assignments)
 
 
-    def run(self, selection_algorithm, population_size: int = 10, max_generations: int = 1000,
-            mutation_rate: float = 0.1, random_seed: int = 42, min_improvement: float = 0,
-            elitism: float = 0, crossover_weighted=False, plot=True):
+    def run(self, selection_algorithm, population_size: int = 100, max_generations: int = 10000,
+            mutation_rate: float = 0.1, random_seed: int = 42, min_improvement: float = 200,
+            elitism: float = 0, crossover_weighted=False, improvement_patience = 100, plot=True):
         # selection_algorithm: selection function (of this class for example):
             # roulette_selection()
             # ...
@@ -194,57 +195,87 @@ class GeneticSolver:
         # elitism: proportion of "best" solutions that are copied to next population exactly:
             # eg 0.03 with a population of 100 means the top 3 best solutions are copied to the next generation
         # crossover_weighted: whether to favor the better parent when doing crossovers
+        # patience: number of generations of no improvement to allow, gets reset upon improvement
 
         # set seed
         np.random.seed(random_seed)
-        # TODO: create a plot each generation in
+
         # Initialize the population
         population = [self.generate_solution() for _ in range(population_size)]
         best_fitness = -np.inf
+        mean_fitness_per_generation = []
+        best_fitness_per_generation = []
+
+        patience = improvement_patience
+
+        print(f"Starting Genetic Algorithm with {population_size} individuals")
         for t in range(max_generations):
             if t % (max_generations / 10) == 0:
                 print(f"Generation {t}")
 
             fitnesses = np.array([solution.fitness for solution in population])
+
+
             # TODO: plot the fitnesses of this generation
             new_best_fitness = np.max(fitnesses)
+            best_fitness_per_generation.append(new_best_fitness)
+            mean_fitness_per_generation.append(np.mean(fitnesses))
+
             # if there is improvement and it is smaller than min_improvement -> terminate
             fitness_improvement = new_best_fitness - best_fitness
             if fitness_improvement > 0:
+                patience = improvement_patience
                 best_fitness = new_best_fitness
-            if fitness_improvement < min_improvement:
-                print("Quitting early due to diminish improvement")
-                break
+                if fitness_improvement < min_improvement:
+                    print("Quitting early due to diminish improvement")
+                    break
             else:
-                # Selection: who gets to have children?
-                # higher fitness -> more likely to crossover with others
-                # tournament selection, roulette wheel selection, or rank-based selection
-                # get a list of probabilities to crossover across all population members
-                selection_probabilities = GeneticSolver.selection(population, fitnesses, selection_algorithm)
+                # print("No improvement:", best_fitness, ">", new_best_fitness)
+                patience -= 1
+            if patience <= 0:
+                print(f"We ran out of patience at generation {t}")
+                break
+            # Selection: who gets to have children?
+            # higher fitness -> more likely to crossover with others
+            # tournament selection, roulette wheel selection, or rank-based selection
+            # get a list of probabilities to crossover across all population members
+            selection_probabilities = GeneticSolver.selection(population, fitnesses, selection_algorithm)
 
-                # Creating the next generation
-                new_population = []
-                # get the ranks of each population member in regards to their selection_probabilities
-                # i use the crossover probabilities instead of fitness values to avoid computation redundancies
-                idx = np.argsort(-selection_probabilities)
-                # 1. apply elitism
-                # the given ratio of the total population means the number of top solutions that are copied down
-                for i in range(int(elitism * population_size)):
-                    # index - 1 is the last id, i.e. the highest probability
-                    new_population.append(population[idx[i]])
-                # 2. apply crossover
-                while len(new_population) < population_size:
-                    # pick two parents
-                    mother, father = np.random.choice(population, size=2, replace=False, p=selection_probabilities)
-                    # generate a new solution, using material of two parents
-                    child = GeneticSolver.crossover(father, mother, weighted = crossover_weighted)
-                    # TODO: with a probability of mutation_rate, mutate the solution
-                    new_population.append(child)
-                # overwrite the population for the new generation
-                population = new_population
+            # Creating the next generation
+            new_population = []
+            # get the ranks of each population member in regards to their selection_probabilities
+            # i use the crossover probabilities instead of fitness values to avoid computation redundancies
+            idx = np.argsort(-selection_probabilities)
+            # 1. apply elitism
+            # the given ratio of the total population means the number of top solutions that are copied down
+            for i in range(int(elitism * population_size)):
+                # index - 1 is the last id, i.e. the highest probability
+                new_population.append(population[idx[i]])
+            # 2. apply crossover
+            while len(new_population) < population_size:
+                # pick two parents
+                mother, father = np.random.choice(population, size=2, replace=False, p=selection_probabilities)
+                # generate a new solution, using material of two parents
+                child = GeneticSolver.crossover(father, mother, weighted = crossover_weighted)
+                # TODO: with a probability of mutation_rate, mutate the solution
+                if np.random.random() < mutation_rate:
+                    child.mutate()
+                new_population.append(child)
+            # overwrite the population for the new generation
+            population = new_population
 
+        fig, ax = plt.subplots()
+        ax.plot(range(t+1), mean_fitness_per_generation, label="Mean Fitness")
+        ax.set_xlabel("Generation")
+        ax.set_ylabel("Mean Fitness")
+        ax.set_title("Mean Fitness Over Time")
+        ax.legend()
+        plt.show()
         # TODO: save the plot
-        print(f"Optimal solution found after {t} generations")
+
+
+        print()
+        print(f"Solution found after {t} generations")
         print(f"Fitness: {best_fitness}")
         best_solution = population[np.argmax(fitnesses)]
         return best_solution.to_solution() # Return the best solution here
@@ -255,7 +286,7 @@ if __name__ == "__main__":
     instance = Instance.from_file(sys.argv[1])
     start_time = time.time()
     solver = GeneticSolver(instance)
-    solution = solver.run(selection_algorithm=GeneticSolver.roulette_selection)
+    solution = solver.run(selection_algorithm=GeneticSolver.roulette_selection, random_seed=420)
     end_time = time.time()
     print("Elapsed time: ", (end_time-start_time), "s")
     solution.print_table(len(sys.argv) > 2)
