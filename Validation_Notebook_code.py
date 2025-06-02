@@ -68,4 +68,12 @@ def validate_all_solutions_macos(test_instance="./ihtc2024_test_dataset/test06.j
 
 # Ausführen der Validierung
 if __name__ == "__main__":
-    validate_all_solutions_macos()
+    for i in range(1, 11):
+        index = f"{i:02d}"
+        validate_all_solutions_macos(
+            test_instance=f"./ihtc2024_test_dataset/test{index}.json",
+            test_solution=f"./ihtc2024_test_dataset/test{index}_solution_model3_simple.json"
+        )
+
+    # validate_all_solutions_macos(test_instance="./ihtc2024_test_dataset/test01.json",
+    #                                  test_solution="./ihtc2024_test_dataset/test01_solution_model3_simple.json")

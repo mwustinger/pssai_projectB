@@ -39,7 +39,7 @@ Run the Genetic Algorithm
 python .\Genetic.py .\ihtc2024_test_dataset\test01.json  
 python ./Genetic.py ./ihtc2024_test_dataset/test01.json
 =======
-python ./Solution.py ./ihtc2024_test_dataset/test01.json ./ihtc2024_test_solutions/sol_test01.json
+python ./Solution.py ./ihtc2024_test_dataset/test04.json ./ihtc2024_test_dataset/test03_solution_model4_simple.json
 
 >>>>>>> c0fd1363538439878360bd7deec1c6c99135bd8b
 ```

@@ -66,7 +66,7 @@ def solve_instance(i: Instance):
 
     if result:
         for pId, admission_day, room_assignment in zip(i.patients.keys(), result["patient_admission_day"], result["patient_room_booking"]):
-            print(f"Patient {pId} is {"mandatory" if i.patients[pId].mandatory else "not mandatory"} and has admission on day {admission_day}")
+            # print(f"Patient {pId} is {"mandatory" if i.patients[pId].mandatory else "not mandatory"} and has admission on day {admission_day}")
             if admission_day < i.days:
                 solution.patients[pId].admission_day = admission_day
                 solution.patients[pId].room = room_assignment
@@ -84,4 +84,4 @@ if __name__ == '__main__':
     end_time = time.time()
     print("Elapsed time: ", (end_time-start_time), "s")
     solution.print_table(len(sys.argv) > 2)
-    solution.to_file(sys.argv[1].replace(".json", "_sol.json"))
+    solution.to_file(sys.argv[1].replace(".json", "_solution_model3_simple.json"))
