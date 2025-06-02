@@ -38,13 +38,21 @@ class GeneticSolution:
 
     def calc_fitness(self):
         fitness = 0
+        # what is going on here?
+        # this looks like an int array of shape (num_patients,) that is true, if the ith patient was
+        # booked to the last day
         scheduled = self.admission_days == self.instance.days
         all_admission_days = np.concatenate((self.admission_days, self.instance.occupant_admission_days))
         all_room_assignments = np.concatenate((self.room_assignments, self.instance.occupant_room_assignments))
+        # days is a dict of np.arrays with indices, pointing to patient/occupant indices that have their stay
+        # during the current day
         days = {d: np.where((all_admission_days <= d) & (d <= all_admission_days + self.instance.lengths_of_stays))[0] for d in range(self.instance.days)}
+        # dict where each unique assigned-to room id points to the patient ids, which were assigned to the current room
         rooms = {self.instance.rooms_to_ids[r] : np.where(all_room_assignments == r)[0] for r in np.unique(all_room_assignments)}
 
+        # for each day
         for _, day_patients in days.items():
+            # for each room:booked_patient_ids arr
             for rid, room_patients in rooms.items():
                 patients_in_room_on_day = np.intersect1d(day_patients, room_patients)
                 if len(patients_in_room_on_day) > 1:
@@ -93,6 +101,7 @@ class GeneticSolver:
         for _, p in self.instance.patients.items():
             if not p.mandatory:
                 p.surgery_due_day = self.instance.days
+        # TODO: shouldnt we add these new variables to the Instance class?
         self.instance.occupant_ids = np.array([])
         self.instance.occupant_admission_days = np.array([0 for _, _ in self.instance.occupants.items()])
         self.instance.occupant_room_assignments = np.array([int(o.room_id.lstrip('r'))  for _, o in self.instance.occupants.items()])
