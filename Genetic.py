@@ -32,10 +32,6 @@ class GeneticSolution:
         self.room_assignments = room_assignments
         self.fitness = self.calc_fitness() # the higher the better
 
-    def mutate(self):
-        # TODO Dont forget to recalc the fitness
-        pass
-
     def calc_fitness(self):
         fitness = 0
         # what is going on here?
@@ -124,6 +120,7 @@ class GeneticSolver:
         self.patients = [GeneticPatient(self.instance, p) for _, p in self.instance.patients.items()]
         np.random.seed(random_seed)
 
+
     def generate_solution(self):
         # for each patient, generate a random admission day
         # (these are automatically between release and due date, so H_ is never violated)
@@ -183,7 +180,7 @@ class GeneticSolver:
 
     def run(self, selection_algorithm, population_size: int = 100, max_generations: int = 10000,
             mutation_rate: float = 0.1, random_seed: int = 42, min_improvement: float = 200,
-            elitism: float = 0, crossover_weighted=False, improvement_patience = 100, plot=True):
+            elitism: float = .1, crossover_weighted=False, improvement_patience = 100, plot=True):
         # selection_algorithm: selection function (of this class for example):
             # roulette_selection()
             # ...
@@ -250,7 +247,11 @@ class GeneticSolver:
             # the given ratio of the total population means the number of top solutions that are copied down
             for i in range(int(elitism * population_size)):
                 # index - 1 is the last id, i.e. the highest probability
-                new_population.append(population[idx[i]])
+                try:
+                    new_population.append(population[idx[i]])
+                except IndexError as e:
+                    print("Did you set elitism as an integer instead of a ratio?")
+                    raise e
             # 2. apply crossover
             while len(new_population) < population_size:
                 # pick two parents
@@ -258,17 +259,17 @@ class GeneticSolver:
                 # generate a new solution, using material of two parents
                 child = GeneticSolver.crossover(father, mother, weighted = crossover_weighted)
                 # TODO: with a probability of mutation_rate, mutate the solution
-                if np.random.random() < mutation_rate:
-                    child.mutate()
+                self.mutate_solution(child, mutation_rate=mutation_rate)
                 new_population.append(child)
             # overwrite the population for the new generation
             population = new_population
 
         fig, ax = plt.subplots()
         ax.plot(range(t+1), mean_fitness_per_generation, label="Mean Fitness")
+        ax.plot(range(t+1), best_fitness_per_generation, label="Best Fitness", color="green")
         ax.set_xlabel("Generation")
         ax.set_ylabel("Mean Fitness")
-        ax.set_title("Mean Fitness Over Time")
+        ax.set_title(f"Mean Fitness Over Time\nmutation rate: {mutation_rate}, elitism: {elitism}")
         ax.legend()
         plt.show()
         # TODO: save the plot
@@ -280,13 +281,21 @@ class GeneticSolver:
         best_solution = population[np.argmax(fitnesses)]
         return best_solution.to_solution() # Return the best solution here
 
-
+    def mutate_solution(self, solution: GeneticSolution, mutation_rate: float):
+        # TODO Dont forget to recalc the fitness
+        num_patients = len(solution.admission_days)
+        for i in range(num_patients):
+            if np.random.random() < mutation_rate:
+                solution.admission_days[i] = self.patients[i].get_random_admission_day_for()
+            if np.random.random() < mutation_rate:
+                solution.room_assignments[i] = self.patients[i].get_random_room()
+        solution.fitness = solution.calc_fitness()
 
 if __name__ == "__main__":
     instance = Instance.from_file(sys.argv[1])
     start_time = time.time()
     solver = GeneticSolver(instance)
-    solution = solver.run(selection_algorithm=GeneticSolver.roulette_selection, random_seed=420)
+    solution = solver.run(selection_algorithm=GeneticSolver.roulette_selection, mutation_rate=.01, elitism=.1)
     end_time = time.time()
     print("Elapsed time: ", (end_time-start_time), "s")
     solution.print_table(len(sys.argv) > 2)
