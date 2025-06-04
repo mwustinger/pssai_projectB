@@ -1,5 +1,7 @@
 import sys
 import time
+from pprint import pprint
+
 import numpy as np
 from Instance import Instance, NewPatient
 from Solution import Solution
@@ -55,14 +57,13 @@ class GeneticSolution:
                 if len(patients_in_room_on_day) > 1:
                     # H1 No gender mix in any room
                     genders = self.instance.genders[patients_in_room_on_day]
+                    # if not all genders are equal
                     if not np.all(genders == genders[0]):
                         fitness += WEIGHT_GENDER_MIX
 
                     # H7 Room capacity must be respected
-                    # TODO: should we maybe add WEIGHT_ROOM_CAPACITY * gravity_of_violation?
-                    if len(patients_in_room_on_day) <= self.instance.rooms[rid].capacity:
-                        # fitness += WEIGHT_ROOM_CAPACITY
-                        fitness += WEIGHT_ROOM_CAPACITY * self.instance.rooms[rid].capacity - len(patients_in_room_on_day)
+                    if len(patients_in_room_on_day) > self.instance.rooms[rid].capacity:
+                        fitness += WEIGHT_ROOM_CAPACITY * (len(patients_in_room_on_day) - self.instance.rooms[rid].capacity)
 
                     # S1 Minimize the mix of age groups
                     fitness += self.instance.weights.room_mixed_age * (np.max(self.instance.ages[patients_in_room_on_day]) - np.min(self.instance.ages[patients_in_room_on_day]))
@@ -83,11 +84,12 @@ class GeneticSolution:
                     fitness += WEIGHT_SURGEON_OVERTIME * overtime
 
         # S7 Minimize the admission delay
+        # no need to bound it to zero because patients can never be booked early anyway
         fitness += self.instance.weights.patient_delay * np.sum(np.where(scheduled, self.admission_days - self.instance.release_days, 0))
 
         # S8 Schedule as many optional patients as possible
-        fitness += self.instance.weights.unscheduled_optional * np.sum(scheduled)
-        return fitness
+        fitness += self.instance.weights.unscheduled_optional * (len(scheduled) - np.sum(scheduled))
+        return -fitness
     
     def to_solution(self):
         solution = Solution(self.instance)
@@ -120,7 +122,6 @@ class GeneticSolver:
         self.patients = [GeneticPatient(self.instance, p) for _, p in self.instance.patients.items()]
         np.random.seed(random_seed)
 
-
     def generate_solution(self):
         # for each patient, generate a random admission day
         # (these are automatically between release and due date, so H_ is never violated)
@@ -137,13 +138,16 @@ class GeneticSolver:
 
     @staticmethod
     def roulette_selection(population: [GeneticSolution], fitnesses: np.ndarray):
-        weights = fitnesses / np.sum(fitnesses)
+        weights = (np.min(fitnesses) - fitnesses)
+        weights = weights / np.sum(weights)
         return weights
 
     @staticmethod
     def linear_ranked_selection(population: [GeneticSolution], fitnesses: np.ndarray):
         # np.argsort computes reversed ranks of the fitnesses
-        reverse_ranks = np.argsort(fitnesses)
+        reverse_ranks = np.argsort(np.argsort(fitnesses))
+        # print("Reverse ranks:")
+        # pprint(reverse_ranks)
         # to use them as weights, normalize them
         weights = reverse_ranks / np.sum(reverse_ranks)
         return weights
@@ -151,7 +155,7 @@ class GeneticSolver:
     @staticmethod
     def exponential_ranked_selection(population: [GeneticSolution], fitnesses: np.ndarray):
         # np.argsort computes reversed ranks of the fitnesses
-        reverse_ranks = np.exp(np.argsort(fitnesses))
+        reverse_ranks = np.exp(np.argsort(np.argsort(fitnesses)))
         # to use them as weights, normalize them
         weights = reverse_ranks / np.sum(reverse_ranks)
         return weights
@@ -172,15 +176,15 @@ class GeneticSolver:
             weights = np.array([.5, .5])
         # generate an array of indices (0, 1) to pick from (mother, father)
         day_selector = np.random.choice([0, 1], size=len(mother.admission_days), replace=True, p=weights)
-        child_admision_days = np.where(day_selector == 1, mother.admission_days, father.admission_days)
+        child_admission_days = np.where(day_selector == 1, mother.admission_days, father.admission_days)
         room_selector = np.random.choice([0, 1], size=len(mother.room_assignments), replace=True, p=weights)
         child_room_assignments = np.where(room_selector == 1, mother.room_assignments, father.room_assignments)
-        return GeneticSolution(mother.instance, child_admision_days, child_room_assignments)
+        return GeneticSolution(mother.instance, child_admission_days, child_room_assignments)
 
 
     def run(self, selection_algorithm, population_size: int = 100, max_generations: int = 10000,
-            mutation_rate: float = 0.1, random_seed: int = 42, min_improvement: float = 200,
-            elitism: float = .1, crossover_weighted=False, improvement_patience = 100, plot=True):
+            mutation_rate: float = 0.1, random_seed: int = 42, elitism: float = .02,
+            crossover_weighted=False, improvement_patience = 100, plot=True):
         # selection_algorithm: selection function (of this class for example):
             # roulette_selection()
             # ...
@@ -207,29 +211,33 @@ class GeneticSolver:
 
         print(f"Starting Genetic Algorithm with {population_size} individuals")
         for t in range(max_generations):
-            if t % (max_generations / 10) == 0:
-                print(f"Generation {t}")
+            # if t % (max_generations / 100) == 0:
+            print(f"\rGeneration {t + 1}/{max_generations}", end="", flush=True)
+            # print()
+            # print(f"Generation {t + 1}/{max_generations}")
 
+            # get a np.array of each individual's fitness
             fitnesses = np.array([solution.fitness for solution in population])
-
-
-            # TODO: plot the fitnesses of this generation
+            # print("Fitnesses:")
+            # pprint( np.round(fitnesses, 2))
+            # get the best fitness of this generation
             new_best_fitness = np.max(fitnesses)
-            best_fitness_per_generation.append(new_best_fitness)
-            mean_fitness_per_generation.append(np.mean(fitnesses))
 
             # if there is improvement and it is smaller than min_improvement -> terminate
             fitness_improvement = new_best_fitness - best_fitness
             if fitness_improvement > 0:
                 patience = improvement_patience
                 best_fitness = new_best_fitness
-                if fitness_improvement < min_improvement:
-                    print("Quitting early due to diminish improvement")
-                    break
             else:
                 # print("No improvement:", best_fitness, ">", new_best_fitness)
                 patience -= 1
+
+            # update the lists for visualization
+            mean_fitness_per_generation.append(np.mean(fitnesses))
+            best_fitness_per_generation.append(best_fitness)
+
             if patience <= 0:
+                print()
                 print(f"We ran out of patience at generation {t}")
                 break
             # Selection: who gets to have children?
@@ -237,12 +245,13 @@ class GeneticSolver:
             # tournament selection, roulette wheel selection, or rank-based selection
             # get a list of probabilities to crossover across all population members
             selection_probabilities = GeneticSolver.selection(population, fitnesses, selection_algorithm)
-
+            # print("Selection probabilities:")
+            # pprint(np.round(selection_probabilities, 2))
             # Creating the next generation
             new_population = []
-            # get the ranks of each population member in regards to their selection_probabilities
-            # i use the crossover probabilities instead of fitness values to avoid computation redundancies
+            # get the locations of each population member sorted by their selection_probabilities
             idx = np.argsort(-selection_probabilities)
+            # print("idx:", idx)
             # 1. apply elitism
             # the given ratio of the total population means the number of top solutions that are copied down
             for i in range(int(elitism * population_size)):
@@ -261,6 +270,7 @@ class GeneticSolver:
                 # TODO: with a probability of mutation_rate, mutate the solution
                 self.mutate_solution(child, mutation_rate=mutation_rate)
                 new_population.append(child)
+
             # overwrite the population for the new generation
             population = new_population
 
@@ -269,7 +279,10 @@ class GeneticSolver:
         ax.plot(range(t+1), best_fitness_per_generation, label="Best Fitness", color="green")
         ax.set_xlabel("Generation")
         ax.set_ylabel("Mean Fitness")
-        ax.set_title(f"Mean Fitness Over Time\nmutation rate: {mutation_rate}, elitism: {elitism}")
+        # ax.set_title(f"Mean Fitness Over Time\nmutation rate: {mutation_rate}, elitism: {elitism}")
+        ax.set_title(f"Mean Fitness Over Time")
+        fig.text(0.5, 0.11, f"Mutation rate: {mutation_rate}, Elitism: {elitism}", ha="center", fontsize=8)
+
         ax.legend()
         plt.show()
         # TODO: save the plot
@@ -282,20 +295,26 @@ class GeneticSolver:
         return best_solution.to_solution() # Return the best solution here
 
     def mutate_solution(self, solution: GeneticSolution, mutation_rate: float):
-        # TODO Dont forget to recalc the fitness
+        mutated = False
+        # num patients is the length of he two arrays that each solution represents
         num_patients = len(solution.admission_days)
         for i in range(num_patients):
             if np.random.random() < mutation_rate:
+                mutated = True
                 solution.admission_days[i] = self.patients[i].get_random_admission_day_for()
             if np.random.random() < mutation_rate:
+                mutated = True
                 solution.room_assignments[i] = self.patients[i].get_random_room()
-        solution.fitness = solution.calc_fitness()
+        # Dont forget to recalc the fitness if there was a mutation
+        if mutated:
+            solution.fitness = solution.calc_fitness()
 
 if __name__ == "__main__":
     instance = Instance.from_file(sys.argv[1])
     start_time = time.time()
     solver = GeneticSolver(instance)
-    solution = solver.run(selection_algorithm=GeneticSolver.roulette_selection, mutation_rate=.01, elitism=.1)
+    # solution = solver.run(selection_algorithm=GeneticSolver.roulette_selection, mutation_rate=.1, elitism=0.1, population_size=10)
+    solution = solver.run(selection_algorithm=GeneticSolver.linear_ranked_selection, mutation_rate=.1, elitism=0.1, population_size=10)
     end_time = time.time()
     print("Elapsed time: ", (end_time-start_time), "s")
     solution.print_table(len(sys.argv) > 2)
