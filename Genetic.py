@@ -1,3 +1,4 @@
+import json
 import sys
 import time
 from pprint import pprint
@@ -184,7 +185,7 @@ class GeneticSolver:
 
     def run(self, selection_algorithm, population_size: int = 100, max_generations: int = 10000,
             mutation_rate: float = 0.1, random_seed: int = 42, elitism: float = .02,
-            crossover_weighted=False, improvement_patience = 100, plot=True):
+            crossover_weighted=False, improvement_patience = 100, title="", plot=True):
         # selection_algorithm: selection function (of this class for example):
             # roulette_selection()
             # ...
@@ -278,15 +279,30 @@ class GeneticSolver:
         ax.plot(range(t+1), mean_fitness_per_generation, label="Mean Fitness")
         ax.plot(range(t+1), best_fitness_per_generation, label="Best Fitness", color="green")
         ax.set_xlabel("Generation")
-        ax.set_ylabel("Mean Fitness")
+        ax.set_ylabel("Fitness")
         # ax.set_title(f"Mean Fitness Over Time\nmutation rate: {mutation_rate}, elitism: {elitism}")
-        ax.set_title(f"Mean Fitness Over Time")
-        fig.text(0.5, 0.11, f"Mutation rate: {mutation_rate}, Elitism: {elitism}", ha="center", fontsize=8)
+        ax.set_title(f"Mean Fitness Over Time — {title}")
+        fig.text(0.5, 0.05, ha="center", fontsize=8,
+                 s=f"Mutation rate: {mutation_rate}, Elitism: {elitism}, Population size: {population_size},\nSelection algorithm: {selection_algorithm.__name__}, Crossover weighted: {crossover_weighted}")
+        plt.subplots_adjust(bottom=0.2)
 
         ax.legend()
         plt.show()
-        # TODO: save the plot
+        plt.savefig(f"output/{title.replace('/', '.')}_MR{mutation_rate}_E{elitism}_P{population_size}_S{selection_algorithm.__name__}_{'W' if crossover_weighted else ''}.png")
 
+        # TODO
+        # save results to JSON
+        with open("output/genetic_results.json", "a") as f:
+            f.write(json.dumps({
+                "instance": title,
+                "mutation_rate": mutation_rate,
+                "elitism": elitism,
+                "population_size": population_size,
+                "selection_algorithm": selection_algorithm.__name__,
+                "crossover_weighted": crossover_weighted,
+                "generations": t,
+                "best_fitness": best_fitness,
+            }) + "\n")
 
         print()
         print(f"Solution found after {t} generations")
@@ -310,11 +326,12 @@ class GeneticSolver:
             solution.fitness = solution.calc_fitness()
 
 if __name__ == "__main__":
-    instance = Instance.from_file(sys.argv[1])
+    instance_file = sys.argv[1]
+    instance = Instance.from_file(instance_file)
     start_time = time.time()
     solver = GeneticSolver(instance)
-    # solution = solver.run(selection_algorithm=GeneticSolver.roulette_selection, mutation_rate=.1, elitism=0.1, population_size=10)
-    solution = solver.run(selection_algorithm=GeneticSolver.linear_ranked_selection, mutation_rate=.1, elitism=0.1, population_size=10)
+    solution = solver.run(selection_algorithm=GeneticSolver.roulette_selection, mutation_rate=.4, elitism=0.1, population_size=100, title=instance_file)
+    # solution = solver.run(selection_algorithm=GeneticSolver.linear_ranked_selection, mutation_rate=.1, elitism=0.1, population_size=100, title=instance_file)
     end_time = time.time()
     print("Elapsed time: ", (end_time-start_time), "s")
     solution.print_table(len(sys.argv) > 2)
