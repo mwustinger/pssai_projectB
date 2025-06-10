@@ -8,6 +8,7 @@ import numpy as np
 from Instance import Instance, NewPatient
 from Solution import Solution
 import matplotlib.pyplot as plt
+import Validation
 
 WEIGHT_GENDER_MIX = 1e6         # H1
 WEIGHT_SURGEON_OVERTIME = 1e4   # H3
@@ -25,7 +26,7 @@ class GeneticPatient:
 
     def get_random_admission_day_for(self):
         return np.random.choice(self.valid_admission_days)
-    
+
     def get_random_room(self):
         return np.random.choice(self.valid_rooms)
 
@@ -69,7 +70,7 @@ class GeneticSolution:
 
                     # S1 Minimize the mix of age groups
                     fitness += self.instance.weights.room_mixed_age * (np.max(self.instance.ages[patients_in_room_on_day]) - np.min(self.instance.ages[patients_in_room_on_day]))
-                
+
 
         # H3 No overtime for surgeons
         # for each day: patients_ids_booked_to_that_day (arr)
@@ -92,7 +93,7 @@ class GeneticSolution:
         # S8 Schedule as many optional patients as possible
         fitness += self.instance.weights.unscheduled_optional * (len(scheduled) - np.sum(scheduled))
         return -fitness
-    
+
     def to_solution(self):
         solution = Solution(self.instance)
         for pid, admission_day, room_assignment in zip(self.instance.patients.keys(), self.admission_days, self.room_assignments):
@@ -100,11 +101,12 @@ class GeneticSolution:
                 solution.patients[pid].admission_day = int(admission_day)
                 solution.patients[pid].room = self.instance.rooms_to_ids[room_assignment]
         return solution
-    
+
 
 class GeneticSolver:
-    def __init__(self, instance: Instance, random_seed: int = 42):
+    def __init__(self, instance: Instance, instance_path=None, random_seed: int = 42):
         self.instance = instance
+        self.instance_path = instance_path
         # Modify instance
         for _, p in self.instance.patients.items():
             if not p.mandatory:
@@ -231,7 +233,7 @@ class GeneticSolver:
         day_selector = np.logical_and(np.arange(num_days) > days_crossover_point_A, np.arange(num_days) <= days_crossover_point_B).astype(int)
         room_selector = np.logical_and(np.arange(num_rooms) > rooms_crossover_point_A, np.arange(num_rooms) <= rooms_crossover_point_B).astype(int)
         return GeneticSolver.perform_crossover(mother, father, day_selector, room_selector)
-    
+
     @staticmethod
     def perform_crossover(mother: GeneticSolution, father: GeneticSolution, admission_day_indices, room_assignment_indices):
         # each parent attribute contains only generally valid solutions
@@ -243,10 +245,10 @@ class GeneticSolver:
         child_admission_days = np.where(admission_day_indices == 1, mother.admission_days, father.admission_days)
         child_room_assignments = np.where(room_assignment_indices == 1, mother.room_assignments, father.room_assignments)
         return GeneticSolution(mother.instance, child_admission_days, child_room_assignments)
-    
-    def run(self, selection_algorithm, crossover_algorithm, population_size: int = 100, max_generations: int = 10000,
+
+    def run(self, selection_algorithm, crossover_algorithm, population_size: int = 100, max_generations: int = 1000,
             mutation_rate: float = 0.1, random_seed: int = 42, elitism: float = .02,
-            crossover_weighted=False, improvement_patience = 100, title="", plot=True, verbose=True):
+            crossover_weighted=False, improvement_patience = 100, title="", plot=True, verbose=True, equal_axes=True):
         # selection_algorithm: selection function (of this class for example):
             # roulette_selection()
             # ...
@@ -325,7 +327,7 @@ class GeneticSolver:
                 try:
                     new_population.append(population[idx[i]])
                 except IndexError as e:
-                    print("Did you set elitism as an integer instead of a ratio?")
+                    print("Did you set elitism as an integer instead of a ratio?", elitism)
                     raise e
             # 2. apply crossover
             while len(new_population) < population_size:
@@ -339,21 +341,40 @@ class GeneticSolver:
 
             # overwrite the population for the new generation
             population = new_population
-
-        fig, ax = plt.subplots()
+        
+        ###### Plot the fitness development 
+        fig, ax = plt.subplots(figsize=(12, 4))
         ax.plot(range(t+1), mean_fitness_per_generation, label="Mean Fitness")
         ax.plot(range(t+1), best_fitness_per_generation, label="Best Fitness", color="green")
+        if equal_axes: 
+            plt.xlim(0, max_generations)
+            plt.ylim(-4e8, -1e8)
         ax.set_xlabel("Generation")
         ax.set_ylabel("Fitness")
         # ax.set_title(f"Mean Fitness Over Time\nmutation rate: {mutation_rate}, elitism: {elitism}")
         ax.set_title(f"Mean Fitness Over Time — {title}")
-        fig.text(0.5, 0.05, ha="center", fontsize=8,
-                 s=f"Mutation rate: {mutation_rate}, Elitism: {elitism}, Population size: {population_size},\nSelection algorithm: {selection_algorithm.__name__}, Crossover algorithm: {crossover_algorithm.__name__} {'(weighted)' if crossover_weighted else ''}")
+        fig.text(0.5, 0.03, ha="center", fontsize=8,
+                 s=f"Mutation rate: {mutation_rate}, Elitism: {elitism}, Population size: {population_size},\nSelection: {selection_algorithm.__name__}, Crossover: {crossover_algorithm.__name__} {'(weighted)' if crossover_weighted else ''}")
         plt.subplots_adjust(bottom=0.2)
 
         ax.legend()
         if plot and verbose: plt.show()
-        plt.savefig(f"output/{title.replace('/', '.')}_MR{mutation_rate}_E{elitism}_P{population_size}_S{selection_algorithm.__name__}_C{crossover_algorithm.__name__}{'_W' if crossover_weighted else ''}.png")
+        plt.savefig(f"output/plots/{title.replace('/', '.')}_MR{round(mutation_rate, 4)}_E{round(elitism, 4)}_P{population_size}_{selection_algorithm.__name__}_{crossover_algorithm.__name__}{'_W' if crossover_weighted else ''}.png")
+
+
+
+        # celebrate
+        if verbose: print()
+        if verbose: print(f"Solution found after {t} generations")
+        if verbose: print(f"Fitness: {best_fitness}")
+        best_solution = population[np.argmax(fitnesses)]
+        best_solution_object = best_solution.to_solution()
+
+        # write the solution object to file to validate it
+        temp_solution_path = "output/temp_solution.json"
+        best_solution_object.to_file(temp_solution_path)
+        # TODO: validate the best solution using the provided validator
+        # Validation.validate_solution(self.instance_path, temp_solution_path)
 
         # save results to JSON
         results_path = "output/genetic_results.json"
@@ -381,11 +402,7 @@ class GeneticSolver:
             json.dump(results, f)
 
 
-        if verbose: print()
-        if verbose: print(f"Solution found after {t} generations")
-        if verbose: print(f"Fitness: {best_fitness}")
-        best_solution = population[np.argmax(fitnesses)]
-        return best_solution.to_solution() # Return the best solution here
+        return best_solution_object # Return the best solution here
 
     def mutate_solution(self, solution: GeneticSolution, mutation_rate: float):
         mutated = False
@@ -403,11 +420,11 @@ class GeneticSolver:
             solution.fitness = solution.calc_fitness()
 
 
-def get_values_from_0_to_1(a):
-    return np.arange(0, 1+1/a, 1/a)
+def get_values_from_0_to_1(a, r=4):
+    return np.append(np.round(np.arange(0, 1, 1/a), r), 1)
 
 
-def grid_search(input_folder):
+def grid_search(input_folder, skip=30, equal_axes=True):
     # define parameter ranges
     selection_algos = [GeneticSolver.roulette_selection, GeneticSolver.linear_ranked_selection, GeneticSolver.exponential_ranked_selection]
     crossover_algos = [GeneticSolver.random_crossover, GeneticSolver.single_point_crossover, GeneticSolver.double_point_crossover]
@@ -416,12 +433,13 @@ def grid_search(input_folder):
     population_sizes = [10, 50, 100, 200]
     # for every file in your input folder
     print("Starting grid search")
+    i = 0
     for entry in os.scandir(input_folder):
         if entry.is_file():
             instance_file = entry.path
             print(f"\tFile ({instance_file})")
             instance = Instance.from_file(instance_file)
-            solver = GeneticSolver(instance)
+            solver = GeneticSolver(instance, instance_path=instance_file)
             # run on every possible parameter combination
             # the results will automatically be saved, as well as the learning plots
             # the solutions will not be saved
@@ -431,6 +449,9 @@ def grid_search(input_folder):
                     for mutation_rate in mutation_rates:
                         for elitism_rate in elitism_rates:
                             for population_size in population_sizes:
+                                i += 1
+                                if i < skip: continue 
+                                print("Grid Run", i)
                                 solution = solver.run(
                                     selection_algorithm=selection_algo, 
                                     crossover_algorithm=crossover_algo, 
@@ -438,7 +459,9 @@ def grid_search(input_folder):
                                     elitism=elitism_rate, 
                                     population_size=population_size, 
                                     title=instance_file,
-                                    verbose=False)
+                                    verbose=False,
+                                    plot=False,
+                                    equal_axes=equal_axes)
 
 
 def main():
@@ -446,9 +469,16 @@ def main():
     instance_file = sys.argv[1]
     instance = Instance.from_file(instance_file)
     start_time = time.time()
-    solver = GeneticSolver(instance)
-    solution = solver.run(selection_algorithm=GeneticSolver.roulette_selection, crossover_algorithm=GeneticSolver.random_crossover, mutation_rate=.4, elitism=0.1, population_size=100, title=instance_file)
-    # solution = solver.run(selection_algorithm=GeneticSolver.linear_ranked_selection, mutation_rate=.1, elitism=0.1, population_size=100, title=instance_file)
+    solver = GeneticSolver(instance, instance_path=instance_file)
+    # parameters
+    selection_algorithm=GeneticSolver.roulette_selection
+    crossover_algorithm=GeneticSolver.random_crossover
+    mutation_rate=.4
+    elitism=0.1
+    population_size=100
+    title=instance_file
+    # run the search algorithm
+    solution = solver.run(selection_algorithm, crossover_algorithm, mutation_rate, elitism, population_size, title)
     end_time = time.time()
     print("Elapsed time: ", (end_time-start_time), "s")
     solution.print_table(len(sys.argv) > 2)
@@ -457,7 +487,7 @@ def main():
     
 if __name__ == "__main__":
     # main()
-    grid_search("ihtc2024_test_dataset")
+    grid_search("ihtc2024_test_dataset", skip=30)
 
 
         
