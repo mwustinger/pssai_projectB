@@ -18,3 +18,4 @@ Thumbs.db
 # RStudio stuff
 PSSAI.Rproj
 .Rhistory
+.RData

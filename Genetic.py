@@ -2,6 +2,7 @@ import json
 import sys
 import time
 from pprint import pprint
+import os
 
 import numpy as np
 from Instance import Instance, NewPatient
@@ -139,8 +140,15 @@ class GeneticSolver:
 
     @staticmethod
     def roulette_selection(population: [GeneticSolution], fitnesses: np.ndarray):
-        weights = (np.min(fitnesses) - fitnesses)
-        weights = weights / np.sum(weights)
+        # if all fitnesses are equal, the weights are equiprobable
+        if np.min(fitnesses) == np.max(fitnesses):
+            n = len(fitnesses)
+            weights = np.repeat(1/n, n)
+        # else, inverse the fitnesses so that a higher negative fitness
+        # will be weighted more, then normalize the weights
+        else: 
+            weights = (np.min(fitnesses) - fitnesses)
+            weights = weights / np.sum(weights)
         return weights
 
     @staticmethod
@@ -199,7 +207,6 @@ class GeneticSolver:
         room_selector = (np.arange(num_rooms) > rooms_crossover_point).astype(int)
         return GeneticSolver.perform_crossover(mother, father, day_selector, room_selector)
     
-    
     @staticmethod
     def double_point_crossover(mother: GeneticSolution, father: GeneticSolution, weighted = False):
         num_days = len(mother.admission_days)
@@ -225,8 +232,6 @@ class GeneticSolver:
         room_selector = np.logical_and(np.arange(num_rooms) > rooms_crossover_point_A, np.arange(num_rooms) <= rooms_crossover_point_B).astype(int)
         return GeneticSolver.perform_crossover(mother, father, day_selector, room_selector)
     
-    
-    
     @staticmethod
     def perform_crossover(mother: GeneticSolution, father: GeneticSolution, admission_day_indices, room_assignment_indices):
         # each parent attribute contains only generally valid solutions
@@ -235,10 +240,9 @@ class GeneticSolver:
         # generate weights of whom to pick from (optional)
         # admission_day_indices, room_assignment_indices: arrays of zeros and ones
         # pick a solution from the mother for 0 and from the father for 1
-        child_admission_days = np.where(day_selector == 1, mother.admission_days, father.admission_days)
-        child_room_assignments = np.where(room_selector == 1, mother.room_assignments, father.room_assignments)
+        child_admission_days = np.where(admission_day_indices == 1, mother.admission_days, father.admission_days)
+        child_room_assignments = np.where(room_assignment_indices == 1, mother.room_assignments, father.room_assignments)
         return GeneticSolution(mother.instance, child_admission_days, child_room_assignments)
-    
     
     def run(self, selection_algorithm, crossover_algorithm, population_size: int = 100, max_generations: int = 10000,
             mutation_rate: float = 0.1, random_seed: int = 42, elitism: float = .02,
@@ -344,7 +348,7 @@ class GeneticSolver:
         # ax.set_title(f"Mean Fitness Over Time\nmutation rate: {mutation_rate}, elitism: {elitism}")
         ax.set_title(f"Mean Fitness Over Time — {title}")
         fig.text(0.5, 0.05, ha="center", fontsize=8,
-                 s=f"Mutation rate: {mutation_rate}, Elitism: {elitism}, Population size: {population_size},\nSelection algorithm: {selection_algorithm.__name__}, Crossover algorithm: {crossover_algorithm.__name__} {'(weighted)' if crossover_weighted}")
+                 s=f"Mutation rate: {mutation_rate}, Elitism: {elitism}, Population size: {population_size},\nSelection algorithm: {selection_algorithm.__name__}, Crossover algorithm: {crossover_algorithm.__name__} {'(weighted)' if crossover_weighted else ''}")
         plt.subplots_adjust(bottom=0.2)
 
         ax.legend()
@@ -352,18 +356,30 @@ class GeneticSolver:
         plt.savefig(f"output/{title.replace('/', '.')}_MR{mutation_rate}_E{elitism}_P{population_size}_S{selection_algorithm.__name__}_C{crossover_algorithm.__name__}{'_W' if crossover_weighted else ''}.png")
 
         # save results to JSON
-        with open("output/genetic_results.json", "a") as f:
-            f.write(json.dumps({
-                "instance": title,
-                "mutation_rate": mutation_rate,
-                "elitism": elitism,
-                "population_size": population_size,
-                "selection_algorithm": selection_algorithm.__name__,
-                "crossover_algorithm": crossover_algorithm.__name__,
-                "crossover_weighted": crossover_weighted,
-                "generations": t,
-                "best_fitness": best_fitness,
-            }) + "\n")
+        results_path = "output/genetic_results.json"
+        # if the reuslts file does ont exist yet, create it
+        if not os.path.exists(results_path):
+            with open(results_path, mode='w', encoding='utf-8') as f:
+                json.dump([], f)
+        # load the existing results
+        with open(results_path, mode='r', encoding='utf-8') as f:
+            results = json.load(f)
+        # append your new results
+        results.append({
+            "instance": title,
+            "mutation_rate": mutation_rate,
+            "elitism": elitism,
+            "population_size": population_size,
+            "selection_algorithm": selection_algorithm.__name__,
+            "crossover_algorithm": crossover_algorithm.__name__,
+            "crossover_weighted": crossover_weighted,
+            "generations": t,
+            "best_fitness": best_fitness,
+        })
+        # write the updated results back to the json file
+        with open(results_path, mode='w', encoding='utf-8') as f:
+            json.dump(results, f)
+
 
         if verbose: print()
         if verbose: print(f"Solution found after {t} generations")
@@ -388,7 +404,8 @@ class GeneticSolver:
 
 
 def get_values_from_0_to_1(a):
-    np.arange(0, 1+1/a, 1/a)
+    return np.arange(0, 1+1/a, 1/a)
+
 
 def grid_search(input_folder):
     # define parameter ranges
