@@ -9,7 +9,6 @@ import numpy as np
 from Instance import Instance, NewPatient
 from Solution import Solution
 import matplotlib.pyplot as plt
-import Validator
 
 WEIGHT_GENDER_MIX = 1e6  # H1
 WEIGHT_SURGEON_OVERTIME = 1e4  # H3
@@ -201,13 +200,13 @@ class GeneticSolver:
         # sample from mother and father solution arrays randomly
         # optionally, the counts of solution values are weighted by the parents' fitness
         if weighted:
-            total = mother.fitness + father.fitness
-            p = mother.fitness / total
+            weights = np.array([mother.fitness, father.fitness])
+            weights = weights / np.sum(weights)
         else:
-            p = 0.5
-        # generate uniform [0,1) and compare to p in one vectorized pass
-        day_selector = (np.random.random(size=len(mother.admission_days)) < p).view(np.int8)
-        room_selector = (np.random.random(size=len(mother.room_assignments)) < p).view(np.int8)
+            weights = np.array([.5, .5])
+        # generate an array of indices to pick from the mother (0) or the father (1)
+        day_selector = np.random.choice([0, 1], size=len(mother.admission_days), replace=True, p=weights)
+        room_selector = np.random.choice([0, 1], size=len(mother.room_assignments), replace=True, p=weights)
         return GeneticSolver.perform_crossover(mother, father, day_selector, room_selector)
 
     @staticmethod
@@ -310,12 +309,7 @@ class GeneticSolver:
             # print(f"Generation {t + 1}/{max_generations}")
 
             # get a np.array of each individual's fitness
-            # fitnesses = np.array([solution.fitness for solution in population])
-            fitnesses = np.fromiter(
-                (sol.fitness for sol in population),  # generator expression
-                dtype=np.float64,  # your fitness type
-                count=len(population)  # so NumPy can pre‐allocate
-            )
+            fitnesses = np.array([solution.fitness for solution in population])
             # print("Fitnesses:")
             # pprint( np.round(fitnesses, 2))
             # get the best fitness of this generation
@@ -372,6 +366,7 @@ class GeneticSolver:
                     break
                 # generate a new solution, using material of two parents
                 child = GeneticSolver.crossover(father, mother, crossover_algorithm, weighted=crossover_weighted)
+                # TODO: with a probability of mutation_rate, mutate the solution
                 self.mutate_solution(child, mutation_rate=mutation_rate)
                 new_population.append(child)
 
@@ -402,12 +397,17 @@ class GeneticSolver:
         if verbose: print()
         if verbose: print(f"Solution found after {t} generations")
         if verbose: print(f"Fitness: {best_fitness}")
-        # grab the best solution from the last generation
         best_solution = population[np.argmax(fitnesses)]
         best_solution_object = best_solution.to_solution()
 
+        # write the solution object to file to validate it
+        temp_solution_path = "output/temp_solution.json"
+        best_solution_object.to_file(temp_solution_path)
+        # TODO: validate the best solution using the provided validator
+        # Validation.validate_solution(self.instance_path, temp_solution_path)
+
         # save results to JSON
-        results_path = "output/genetic_results.json"
+        results_path = "output/genetic_results_2.json"
         # if the reuslts file does ont exist yet, create it
         if not os.path.exists(results_path):
             with open(results_path, mode='w', encoding='utf-8') as f:
@@ -457,11 +457,12 @@ def grid_search(input_folder, skip=30, equal_axes=True):
     # define parameter ranges
     selection_algos = [GeneticSolver.roulette_selection, GeneticSolver.linear_ranked_selection,
                        GeneticSolver.exponential_ranked_selection]
-    crossover_algos = [GeneticSolver.random_crossover, GeneticSolver.single_point_crossover,
-                       GeneticSolver.double_point_crossover]
-    mutation_rates = get_values_from_0_to_1(6)
-    elitism_rates = get_values_from_0_to_1(6)
+    crossover_algos = [GeneticSolver.random_crossover]#,
+                       #GeneticSolver.single_point_crossover, GeneticSolver.double_point_crossover]
+    mutation_rates = np.arange(0.05, 0.5, 0.2)#get_values_from_0_to_1(6)
+    elitism_rates = np.arange(.1, 1, 0.25)#get_values_from_0_to_1(6)
     population_sizes = [10, 100]
+    weighteds = [True, False]
     # for every file in your input folder
     print("Starting grid search")
     i = 0
@@ -481,19 +482,21 @@ def grid_search(input_folder, skip=30, equal_axes=True):
                     for mutation_rate in mutation_rates:
                         for elitism_rate in elitism_rates:
                             for population_size in population_sizes:
-                                i += 1
-                                if i < skip: continue
-                                print("Grid Run", i)
-                                solution = solver.run(
-                                    selection_algorithm=selection_algo,
-                                    crossover_algorithm=crossover_algo,
-                                    mutation_rate=mutation_rate,
-                                    elitism=elitism_rate,
-                                    population_size=population_size,
-                                    title=instance_file,
-                                    verbose=False,
-                                    plot=False,
-                                    equal_axes=equal_axes)
+                                for weighted in weighteds:
+                                    i += 1
+                                    if i < skip: continue
+                                    print("Grid Run", i)
+                                    solution = solver.run(
+                                        selection_algorithm=selection_algo,
+                                        crossover_algorithm=crossover_algo,
+                                        mutation_rate=mutation_rate,
+                                        elitism=elitism_rate,
+                                        population_size=population_size,
+                                        crossover_weighted = weighted,
+                                        title=instance_file,
+                                        verbose=False,
+                                        plot=False,
+                                        equal_axes=equal_axes)
 
 
 def main():
@@ -519,6 +522,6 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    grid_search("ihtc2024_test_dataset", skip=2908)
+    grid_search("ihtc2024_test_dataset", skip=20)
 
 

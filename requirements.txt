@@ -1,5 +1,8 @@
 dataclasses_json
-minizinc
-pandas
-colour
+minizinc~=0.10.0
+pandas~=2.3.0
+colour~=0.1.5
 great_tables
+numpy~=2.2.6
+matplotlib~=3.10.3
+dataclasses-json~=0.6.7
