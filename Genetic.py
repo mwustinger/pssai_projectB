@@ -522,6 +522,6 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    grid_search("ihtc2024_test_dataset", skip=20)
+    grid_search("ihtc2024_test_dataset", skip=1275)
 
 
