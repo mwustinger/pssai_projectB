@@ -19,3 +19,10 @@ Thumbs.db
 PSSAI.Rproj
 .Rhistory
 .RData
+
+ihtc2024_test_dataset
+ihtc2024_competition_instances
+ihtc2024_test_solutions
+Solver_2.py
+output/plots/*
+plotResults.py
