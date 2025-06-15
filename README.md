@@ -31,15 +31,8 @@ python ./Solver.py ./ihtc2024_test_dataset/test01.json
 
 # Visualize a saved solution for a dataset instance
 python .\Solution.py .\ihtc2024_test_dataset\test01.json .\ihtc2024_test_solutions\sol_test01.json
-<<<<<<< HEAD
-```
 
-Run the Genetic Algorithm
-```
-python .\Genetic.py .\ihtc2024_test_dataset\test01.json  
+# Run the Genetic Algorithm
+ 
 python ./Genetic.py ./ihtc2024_test_dataset/test01.json
-=======
-python ./Solution.py ./ihtc2024_test_dataset/test04.json ./ihtc2024_test_dataset/test03_solution_model4_simple.json
-
->>>>>>> c0fd1363538439878360bd7deec1c6c99135bd8b
 ```
