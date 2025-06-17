@@ -75,7 +75,8 @@ def validate_solution(instance_file, solution_file, verbose=True):
         print("-" * 30)
 
 # Ausführen der Validierung
-#if __name__ == "__main__":
+if __name__ == "__main__":
+    validate_solution(instance_file="ihtc2024_test_dataset/test04.json", solution_file="output/temp_solution_sol.json", verbose=True)
 #    for i in range(1, 11):
 #        index = f"{i:02d}"
 #        validate_all_solutions_macos(
