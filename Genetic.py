@@ -572,29 +572,30 @@ def showcase():
     # execute all these
     for f in os.listdir("ihtc2024_test_dataset"):
         if "sol" in f or "test" not in f: continue
-        print()
-        print(f)
-        for seed in range(5):
-            instance_path = os.path.join("ihtc2024_test_dataset", f)
-            instance = Instance.from_file(instance_path)
-            solver = GeneticSolver(instance, instance_path=instance_path)
-            # parameters
-            # run the search algorithm
-            solution = solver.run(
-                output_path=None,
-                equal_axes=False,
-                mutation_rate=0.05,
-                elitism=0.35,
-                selection_algorithm=GeneticSolver.roulette_selection,
-                population_size=100,
-                crossover_weighted=True,
-                # verbose=False,
-                random_seed=seed)
-            solution_path = f"output/{f}_solution_{seed}.json"
-            # solution.print_table()
-            solution.to_file(solution_path)
-            # validat the solution
-            Validator.validate_solution(instance_path, solution_path)
+        if "1" in f or "2" in f or "4" in f or "8" in f:
+            print()
+            print(f)
+            for seed in range(5):
+                instance_path = os.path.join("ihtc2024_test_dataset", f)
+                instance = Instance.from_file(instance_path)
+                solver = GeneticSolver(instance, instance_path=instance_path)
+                # parameters
+                # run the search algorithm
+                solution = solver.run(
+                    output_path=None,
+                    equal_axes=False,
+                    mutation_rate=0.05,
+                    elitism=0.35,
+                    selection_algorithm=GeneticSolver.roulette_selection,
+                    population_size=100,
+                    crossover_weighted=True,
+                    # verbose=False,
+                    random_seed=seed)
+                solution_path = f"output/final_test/{f}_solution_{seed}.json"
+                # solution.print_table()
+                solution.to_file(solution_path)
+                # validat the solution
+                Validator.validate_solution(instance_path, solution_path)
 
 
 def main(instance_path, output_path=None, **kwargs):
