@@ -1,0 +1,1 @@
+[{"instance": "ihtc2024_test_dataset/test09.json", "mutation_rate": 0.05, "elitism": 0.8499999999999999, "population_size": 1000, "selection_algorithm": "exponential_ranked_selection", "crossover_algorithm": "random_crossover", "crossover_weighted": false, "generations": 10, "best_fitness": -75080000018352.0}]
