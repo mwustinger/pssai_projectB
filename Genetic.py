@@ -52,7 +52,21 @@ class GeneticSolution:
         self.instance = instance
         self.admission_days = admission_days
         self.room_assignments = room_assignments
-        self.fitness = self.calc_fitness()  # the higher the better
+        self.fitness = self.calc_fitness()  # the higher, the better
+
+    def __init__(self, instance: Instance, solution_path: str):
+        self.instance = instance
+        # load the json file of the solution
+        sol = json.load(open(solution_path))
+        pprint(sol)
+        admission_days = []
+        room_assignments = []
+        for p in sol['patients']:
+            admission_days.append(p['admission_day'] if p['admission_day'] != "none" else self.instance.days)
+            room_assignments.append(int(p['room'].strip("r")) if "room" in p.keys() else 0)
+        self.admission_days = np.array(admission_days)
+        self.room_assignments = np.array(room_assignments)
+        self.fitness = self.calc_fitness()
 
     def calc_fitness(self):
         fitness = 0
@@ -598,26 +612,34 @@ def showcase():
                 Validator.validate_solution(instance_path, solution_path)
 
 
-def main(instance_path, output_path=None, **kwargs):
+def main(instance_path, output_path=None, equal_axes=False, **kwargs):
     # perform a single search, save results and visualize the solution
     instance = Instance.from_file(instance_path)
     start_time = time.time()
     solver = GeneticSolver(instance, instance_path=instance_path)
-    # parameters
     # run the search algorithm
-    solution = solver.run(output_path, equal_axes=False, **kwargs)
+    solution = solver.run(output_path, title=instance_path, equal_axes=equal_axes, **kwargs)
     end_time = time.time()
     print("Elapsed time: ", (end_time - start_time), "s")
     solution.print_table(len(sys.argv) > 2)
     solution.to_file(sys.argv[1].replace(".json", "_sol.json"))
 
 
+
+
 if __name__ == "__main__":
-    # instance_path = "ihtc2024_test_dataset/test01.json"
     # output_path = "output/genetic_results_experiment2.json"
-    # main(output_path=output_path)
+    # main(instance_path=instance_path, output_path=output_path, mutation_rate=0.05,
+    #      elitism=0.35, population_size=100, equal_axes=False,
+    #      selection_algorithm=GeneticSolver.roulette_selection, crossover_weighted=True)
     # grid_search("ihtc2024_test_dataset", output_path=output_path, skip=0)
-    showcase()
+    # showcase()
+    i = "10"
+    instance_path = f"ihtc2024_test_dataset/test{i}.json"
+    instance = Instance.from_file(instance_path)
+    solver = GeneticSolver(instance, instance_path=instance_path)
+    baseline = GeneticSolution(solver.instance, solution_path=f"ihtc2024_test_solutions/sol_test{i}.json")
+    print("Baseline fitness:", baseline.fitness)
 
 
 
