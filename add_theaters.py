@@ -4,7 +4,7 @@ import os
 folder_path = "./output/final_test"  # Replace with your folder path
 
 for filename in os.listdir(folder_path):
-    if filename.endswith(".json"):
+    if filename.endswith(".json"): # and "test10" in filename:
         filepath = os.path.join(folder_path, filename)
         
         with open(filepath, "r") as file:
