@@ -30,7 +30,7 @@ class GeneticPatient:
             [d for d in range(p.surgery_release_day, p.surgery_due_day + 1) if d in possible_surgery_days or d == instance.days])
         
         self.valid_rooms = np.array(
-            [int(rid.lstrip('r')) for rid, r in instance.rooms.items() if r not in p.incompatible_room_ids])
+            [int(rid.lstrip('r')) for rid, r in instance.rooms.items() if rid not in p.incompatible_room_ids])
         
         valid_rooms_capacities = np.array([instance.rooms[instance.rooms_to_ids[r]].capacity for r in self.valid_rooms])
         self.valid_rooms_weights = valid_rooms_capacities / sum(valid_rooms_capacities)
