@@ -187,6 +187,9 @@ class Solution:
 
 
 if __name__ == '__main__':
-    instance = Instance.from_file(sys.argv[1])
-    solution = Solution.from_file(instance, sys.argv[2])
+    i = "01"
+    instance_path = f"ihtc2024_test_dataset/test{i}.json"
+    instance = Instance.from_file(instance_path)
+    solution_path = f"ihtc2024_test_solutions/sol_test{i}.json"
+    solution = Solution.from_file(instance, solution_path)
     solution.print_table(len(sys.argv) > 3)

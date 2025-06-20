@@ -10,14 +10,9 @@ from Instance import Instance, NewPatient
 from Solution import Solution
 import matplotlib.pyplot as plt
 
-# For Objective 1
-WEIGHT_GENDER_MIX = 1e6  # H1
-WEIGHT_SURGEON_OVERTIME = 1e4  # H3
-WEIGHT_ROOM_CAPACITY = 1e5  # H7
-# H2, H5 and H6 are automatically given due to the solution representation
-
-# For Objective 2
+# For Objective
 WEIGHT_HARD_CONSTRAINT = 1e10
+# H2, H5 and H6 are automatically given due to the solution representation
 
 class GeneticPatient:
     def __init__(self, instance: Instance, p: NewPatient):
@@ -58,7 +53,6 @@ class GeneticSolution:
         self.instance = instance
         # load the json file of the solution
         sol = json.load(open(solution_path))
-        pprint(sol)
         admission_days = []
         room_assignments = []
         for p in sol['patients']:
@@ -73,55 +67,46 @@ class GeneticSolution:
         scheduled = self.admission_days < self.instance.days
         all_admission_days = np.concatenate((self.admission_days, self.instance.occupant_admission_days))
         all_room_assignments = np.concatenate((self.room_assignments, self.instance.occupant_room_assignments))
-        # days is a dict of np.arrays with indices, pointing to patient/occupant indices that have their stay
-        # during the current day
-        days = {d: np.where((all_admission_days <= d) & (d <= all_admission_days + self.instance.lengths_of_stays))[0]
+        patients_per_day = {d: np.where((all_admission_days <= d) & (d < all_admission_days + self.instance.lengths_of_stays))[0]
                 for d in range(self.instance.days)}
-        # dict where each unique assigned-to room id points to the patient ids, which were assigned to the current room
-        rooms = {self.instance.rooms_to_ids[r]: np.where(all_room_assignments == r)[0] for r in
+        admissions_per_day = {d: np.where((all_admission_days == d))[0] for d in range(self.instance.days)}
+        patients_per_room = {self.instance.rooms_to_ids[r]: np.where(all_room_assignments == r)[0] for r in
                  np.unique(all_room_assignments)}
 
-        # for each day: patients booked on that day
-        for _, day_patients in days.items():
-            # for each room:booked_patient_ids arr
-            for rid, room_patients in rooms.items():
-                # get the patient ids that are in the current room only on the current day
+        for day, day_patients in patients_per_day.items():
+            for rid, room_patients in patients_per_room.items():
                 patients_in_room_on_day = np.intersect1d(day_patients, room_patients)
+                #print(day, rid, patients_in_room_on_day)
                 if len(patients_in_room_on_day) > 1:
                     # H1 No gender mix in any room
                     genders = self.instance.genders[patients_in_room_on_day]
+                    unique, counts = np.unique(genders, return_counts=True)
                     # if not all genders are equal
-                    if not np.all(genders == genders[0]):
-                        fitness += WEIGHT_GENDER_MIX
+                    if len(unique) > 1:
+                        fitness += (counts.min() ** 2) * WEIGHT_HARD_CONSTRAINT
+                        #print("In room ", rid, " are different genders ", genders)
 
                     # H7 Room capacity must be respected
                     if len(patients_in_room_on_day) > self.instance.rooms[rid].capacity:
-                        fitness += WEIGHT_ROOM_CAPACITY * (
-                                    len(patients_in_room_on_day) - self.instance.rooms[rid].capacity)
+                        fitness += ((len(patients_in_room_on_day) - self.instance.rooms[rid].capacity) ** 2) * WEIGHT_HARD_CONSTRAINT
+                        #print("Room ", rid, " is overbooked ", len(patients_in_room_on_day), "/", self.instance.rooms[rid].capacity)
 
                     # S1 Minimize the mix of age groups
-                    fitness += self.instance.weights.room_mixed_age * (
-                                np.max(self.instance.ages[patients_in_room_on_day]) - np.min(
-                            self.instance.ages[patients_in_room_on_day]))
+                    fitness += self.instance.weights.room_mixed_age * (np.max(self.instance.ages[patients_in_room_on_day]) - np.min(self.instance.ages[patients_in_room_on_day]))
 
         # H3 No overtime for surgeons
-        # for each day: patients_ids_booked_to_that_day (arr)
-        for day, day_patients in days.items():
-            # for each surgeon_id, patient_ids_surgeon_was_assigned_to
+        for day, day_admissions in admissions_per_day.items():
             for sid, surgeon_patients in self.instance.surgeon_assignments.items():
-                # get all patients that were booked for surgery on this day with this surgeon
-                patients_of_surgeon_on_day = np.intersect1d(day_patients, surgeon_patients)
-                # get the total surgery duration of patients_of_surgeon_on_day
+                patients_of_surgeon_on_day = np.intersect1d(day_admissions, surgeon_patients)
+                # print(day, sid, patients_of_surgeon_on_day)
                 total_surgery_duration = np.sum(self.instance.surgery_durations[patients_of_surgeon_on_day])
-                # compute any overtime and penalize the fitness accordingly
                 overtime = total_surgery_duration - self.instance.surgeons[sid].max_surgery_time[day]
                 if overtime > 0:
-                    fitness += WEIGHT_SURGEON_OVERTIME * overtime
-
+                    avg_surgery_duration = total_surgery_duration / len(patients_of_surgeon_on_day)
+                    fitness += (np.ceil(overtime/avg_surgery_duration) ** 2) * WEIGHT_HARD_CONSTRAINT
+                    # print("Surgeon ", sid, " is working ", total_surgery_duration, "/", self.instance.surgeons[sid].max_surgery_time[day])
         # S7 Minimize the admission delay
-        # no need to bound it to zero because patients can never be booked early anyway
-        fitness += self.instance.weights.patient_delay * np.sum(
-            np.where(scheduled, self.admission_days - self.instance.release_days, 0))
+        fitness += self.instance.weights.patient_delay * np.sum(np.where(scheduled, self.admission_days - self.instance.release_days, 0))
 
         # S8 Schedule as many optional patients as possible
         fitness += self.instance.weights.unscheduled_optional * (len(scheduled) - np.sum(scheduled))
@@ -135,54 +120,7 @@ class GeneticSolution:
                 solution.patients[pid].admission_day = int(admission_day)
                 solution.patients[pid].room = self.instance.rooms_to_ids[room_assignment]
         return solution
-    
 
-class GeneticSolution2(GeneticSolution):
-    def calc_fitness(self):
-        fitness = 0
-        scheduled = self.admission_days < self.instance.days
-        all_admission_days = np.concatenate((self.admission_days, self.instance.occupant_admission_days))
-        all_room_assignments = np.concatenate((self.room_assignments, self.instance.occupant_room_assignments))
-        patients_per_day = {d: np.where((all_admission_days <= d) & (d <= all_admission_days + self.instance.lengths_of_stays))[0]
-                for d in range(self.instance.days)}
-        patients_per_room = {self.instance.rooms_to_ids[r]: np.where(all_room_assignments == r)[0] for r in
-                 np.unique(all_room_assignments)}
-
-        for _, day_patients in patients_per_day.items():
-            for rid, room_patients in patients_per_room.items():
-                patients_in_room_on_day = np.intersect1d(day_patients, room_patients)
-                if len(patients_in_room_on_day) > 1:
-                    # H1 No gender mix in any room
-                    genders = self.instance.genders[patients_in_room_on_day]
-                    unique, counts = np.unique(genders, return_counts=True)
-                    # if not all genders are equal
-                    if len(unique) > 1:
-                        fitness += (counts.min() ** 2) * WEIGHT_HARD_CONSTRAINT
-
-                    # H7 Room capacity must be respected
-                    if len(patients_in_room_on_day) > self.instance.rooms[rid].capacity:
-                        fitness += ((len(patients_in_room_on_day) - self.instance.rooms[rid].capacity) ** 2) * WEIGHT_HARD_CONSTRAINT
-
-                    # S1 Minimize the mix of age groups
-                    fitness += self.instance.weights.room_mixed_age * (np.max(self.instance.ages[patients_in_room_on_day]) - np.min(self.instance.ages[patients_in_room_on_day]))
-
-        # H3 No overtime for surgeons
-        for day, day_patients in patients_per_day.items():
-            for sid, surgeon_patients in self.instance.surgeon_assignments.items():
-                patients_of_surgeon_on_day = np.intersect1d(day_patients, surgeon_patients)
-                total_surgery_duration = np.sum(self.instance.surgery_durations[patients_of_surgeon_on_day])
-                overtime = total_surgery_duration - self.instance.surgeons[sid].max_surgery_time[day]
-                if overtime > 0:
-                    avg_surgery_duration = total_surgery_duration / len(patients_of_surgeon_on_day)
-                    fitness += (np.ceil(overtime/avg_surgery_duration) ** 2) * WEIGHT_HARD_CONSTRAINT
-
-        # S7 Minimize the admission delay
-        fitness += self.instance.weights.patient_delay * np.sum(np.where(scheduled, self.admission_days - self.instance.release_days, 0))
-
-        # S8 Schedule as many optional patients as possible
-        fitness += self.instance.weights.unscheduled_optional * (len(scheduled) - np.sum(scheduled))
-        return -fitness
-        
 
 class GeneticSolver:
     def __init__(self, instance: Instance, instance_path=None, random_seed: int = 42):
@@ -222,7 +160,7 @@ class GeneticSolver:
         # for each patient, book him to a random valid room
         # (these are automatically compatible, so H_ is never violated)
         room_assignments = np.array([p.get_random_room() for p in self.patients])
-        return GeneticSolution2(self.instance, admission_days, room_assignments)
+        return GeneticSolution(self.instance, admission_days, room_assignments)
 
     # selection returns the selection probabilities for each population member
     @staticmethod
@@ -351,7 +289,7 @@ class GeneticSolver:
         child_admission_days = np.where(admission_day_indices == 1, mother.admission_days, father.admission_days)
         child_room_assignments = np.where(room_assignment_indices == 1, mother.room_assignments,
                                           father.room_assignments)
-        return GeneticSolution2(mother.instance, child_admission_days, child_room_assignments)
+        return GeneticSolution(mother.instance, child_admission_days, child_room_assignments)
 
     def run(self, output_path, selection_algorithm=None, crossover_algorithm=None, population_size: int = 1000, max_generations: int = 100,
             mutation_rate: float = 0.1, random_seed: int = 42, elitism: float = 0.1,
@@ -634,7 +572,7 @@ if __name__ == "__main__":
     #      selection_algorithm=GeneticSolver.roulette_selection, crossover_weighted=True)
     # grid_search("ihtc2024_test_dataset", output_path=output_path, skip=0)
     # showcase()
-    i = "10"
+    i = "01"
     instance_path = f"ihtc2024_test_dataset/test{i}.json"
     instance = Instance.from_file(instance_path)
     solver = GeneticSolver(instance, instance_path=instance_path)
